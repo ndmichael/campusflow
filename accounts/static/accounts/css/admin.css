@@ -673,3 +673,42 @@ body.admin-dashboard {
     }
 
 }
+
+
+/* =========================================================
+   ADMIN DATA TABLES
+========================================================= */
+
+.admin-data-table {
+    color: var(--admin-text);
+}
+
+.admin-data-table thead th {
+    padding: 12px 10px;
+    border-bottom: 1px solid var(--admin-border);
+    color: var(--admin-muted);
+    font-size: 10px;
+    font-weight: 750;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    white-space: nowrap;
+}
+
+.admin-data-table tbody td {
+    padding: 14px 10px;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+.admin-data-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+@media (max-width: 576px) {
+
+    .admin-data-table {
+        min-width: 680px;
+    }
+
+}
