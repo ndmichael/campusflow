@@ -478,4 +478,48 @@ body.teacher-dashboard {
         padding: 18px;
     }
 
+    .teacher-status-select,
+    .teacher-mark-input {
+        width: 100%;
+    }
+
+}
+
+/* =========================================================
+   ATTENDANCE & RESULTS
+========================================================= */
+
+.teacher-mark-table th {
+    padding: 12px 10px;
+    border-bottom: 1px solid var(--teacher-border);
+    color: var(--teacher-muted);
+    font-size: 10px;
+    font-weight: 750;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    white-space: nowrap;
+}
+
+.teacher-mark-table td {
+    padding: 14px 10px;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+.teacher-mark-table tr:last-child td {
+    border-bottom: none;
+}
+
+.teacher-status-select {
+    width: 125px;
+}
+
+.teacher-mark-input {
+    width: 110px;
+}
+
+.teacher-mark-table .teacher-student-avatar {
+    width: 38px;
+    height: 38px;
 }
