@@ -1,0 +1,302 @@
+{% extends "accounts/dashboard/base.html" %}
+{% load static %}
+
+{% block title %}
+    My Profile | APTECHSys
+{% endblock %}
+
+{% block body_class %}
+    teacher-dashboard
+{% endblock %}
+
+{% block extra_css %}
+    <link
+        rel="stylesheet"
+        href="{% static 'accounts/css/teacher.css' %}"
+    >
+{% endblock %}
+
+{% block topbar_title %}
+    My Profile
+{% endblock %}
+
+{% block sidebar %}
+
+    <div class="nav-section-title">
+        Overview
+    </div>
+
+    <a
+        href="{% url 'teacher_dashboard' %}"
+        class="sidebar-link"
+    >
+        <i class="bi bi-grid-1x2-fill"></i>
+        <span>Dashboard</span>
+    </a>
+
+    <div class="nav-section-title mt-4">
+        Teaching
+    </div>
+
+    <a
+        href="{% url 'teacher_courses' %}"
+        class="sidebar-link"
+    >
+        <i class="bi bi-book-fill"></i>
+        <span>My Courses</span>
+    </a>
+
+    <a
+        href="{% url 'teacher_students' %}"
+        class="sidebar-link"
+    >
+        <i class="bi bi-people-fill"></i>
+        <span>Students</span>
+    </a>
+
+    <a
+        href="{% url 'teacher_attendance' %}"
+        class="sidebar-link"
+    >
+        <i class="bi bi-calendar-check-fill"></i>
+        <span>Attendance</span>
+    </a>
+
+    <a
+        href="{% url 'teacher_results' %}"
+        class="sidebar-link"
+    >
+        <i class="bi bi-award-fill"></i>
+        <span>Results</span>
+    </a>
+
+    <div class="nav-section-title mt-4">
+        Account
+    </div>
+
+    <a
+        href="{% url 'teacher_profile' %}"
+        class="sidebar-link active"
+    >
+        <i class="bi bi-person-fill"></i>
+        <span>My Profile</span>
+    </a>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+
+        <div>
+            <h1 class="fw-bold mb-1">
+                My Profile
+            </h1>
+
+            <p class="text-muted mb-0">
+                View your teaching and account information.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="row g-4">
+
+        <div class="col-12 col-xl-4">
+
+            <div class="teacher-profile-card">
+
+                <div class="teacher-profile-avatar">
+
+                    {% if teacher.user.first_name %}
+                        {{ teacher.user.first_name|first|upper }}
+                    {% else %}
+                        {{ teacher.user.username|first|upper }}
+                    {% endif %}
+
+                </div>
+
+                <h3>
+                    {{ teacher.user.get_full_name|default:teacher.user.username }}
+                </h3>
+
+                <p class="teacher-profile-role">
+                    Teacher
+                </p>
+
+                <span class="teacher-profile-id">
+                    {{ teacher.employee_id }}
+                </span>
+
+
+                <div class="teacher-profile-summary">
+
+                    <div>
+                        <strong>{{ total_courses }}</strong>
+                        <span>Courses</span>
+                    </div>
+
+                    <div>
+                        <strong>{{ teacher.specialization|default:"—" }}</strong>
+                        <span>Specialization</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-12 col-xl-8">
+
+            <div class="teacher-panel">
+
+                <div class="teacher-panel-heading">
+
+                    <div>
+                        <h5>
+                            Personal Information
+                        </h5>
+
+                        <p>
+                            Your registered account details.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="teacher-profile-info-grid">
+
+                    <div class="teacher-profile-info-item">
+                        <span>Full Name</span>
+                        <strong>
+                            {{ teacher.user.get_full_name|default:teacher.user.username }}
+                        </strong>
+                    </div>
+
+                    <div class="teacher-profile-info-item">
+                        <span>Email</span>
+                        <strong>
+                            {{ teacher.user.email }}
+                        </strong>
+                    </div>
+
+                    <div class="teacher-profile-info-item">
+                        <span>Employee ID</span>
+                        <strong>
+                            {{ teacher.employee_id }}
+                        </strong>
+                    </div>
+
+                    <div class="teacher-profile-info-item">
+                        <span>Phone</span>
+                        <strong>
+                            {{ teacher.phone|default:"Not provided" }}
+                        </strong>
+                    </div>
+
+                    <div class="teacher-profile-info-item">
+                        <span>Specialization</span>
+                        <strong>
+                            {{ teacher.specialization|default:"Not provided" }}
+                        </strong>
+                    </div>
+
+                    <div class="teacher-profile-info-item">
+                        <span>Date Joined</span>
+                        <strong>
+                            {{ teacher.date_joined|date:"F d, Y" }}
+                        </strong>
+                    </div>
+
+                    <div class="teacher-profile-info-item teacher-profile-info-full">
+                        <span>Address</span>
+                        <strong>
+                            {{ teacher.address|default:"Not provided" }}
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-12">
+
+            <div class="teacher-panel">
+
+                <div class="teacher-panel-heading">
+
+                    <div>
+                        <h5>
+                            My Courses
+                        </h5>
+
+                        <p>
+                            Courses currently assigned to you.
+                        </p>
+                    </div>
+
+                    <a href="{% url 'teacher_courses' %}">
+                        View all
+                    </a>
+
+                </div>
+
+
+                {% for course in courses %}
+
+                    <div class="teacher-course teacher-profile-course">
+
+                        <div>
+                            <div class="teacher-course-code">
+                                {{ course.code }}
+                            </div>
+
+                            <div class="teacher-course-name">
+                                {{ course.name }}
+                            </div>
+                        </div>
+
+                        <div class="teacher-course-meta">
+
+                            <span>
+                                <i class="bi bi-building me-1"></i>
+                                {{ course.department.name }}
+                            </span>
+
+                            <span>
+                                <i class="bi bi-people me-1"></i>
+                                {{ course.enrollments.count }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                {% empty %}
+
+                    <div class="text-center py-4 text-muted">
+
+                        <i class="bi bi-book display-6"></i>
+
+                        <p class="mt-3 mb-0">
+                            No courses assigned.
+                        </p>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}

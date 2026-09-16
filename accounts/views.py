@@ -594,6 +594,35 @@ def teacher_results(request):
 
 
 @login_required
+def teacher_profile(request):
+    if request.user.role != "teacher":
+        raise PermissionDenied
+
+    teacher = request.user.teacher_profile
+
+    courses = (
+        Course.objects
+        .filter(teacher=teacher)
+        .select_related("department")
+        .order_by("code")
+    )
+
+    context = {
+        "title": "My Profile",
+        "teacher": teacher,
+        "courses": courses,
+        "total_courses": courses.count(),
+    }
+
+    return render(
+        request,
+        "accounts/dashboard/teacher/profile.html",
+        context,
+    )
+
+
+
+@login_required
 def admin_dashboard(request):
     if not (request.user.is_superuser or request.user.role == "admin"):
         raise PermissionDenied
