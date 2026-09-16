@@ -1,0 +1,186 @@
+{% extends "accounts/dashboard/base.html" %}
+{% load static %}
+
+{% block title %}
+    Teachers | APTECHSys
+{% endblock %}
+
+{% block body_class %}
+    admin-dashboard
+{% endblock %}
+
+{% block extra_css %}
+    <link
+        rel="stylesheet"
+        href="{% static 'accounts/css/admin.css' %}"
+    >
+{% endblock %}
+
+{% block topbar_title %}
+    Teachers
+{% endblock %}
+
+{% block sidebar %}
+
+    <div class="nav-section-title">
+        Overview
+    </div>
+
+    <a
+        href="{% url 'admin_dashboard' %}"
+        class="sidebar-link"
+    >
+        <i class="bi bi-grid-1x2-fill"></i>
+        <span>Dashboard</span>
+    </a>
+
+    <div class="nav-section-title mt-4">
+        Management
+    </div>
+
+    <a
+        href="{% url 'admin_students' %}"
+        class="sidebar-link"
+    >
+        <i class="bi bi-people-fill"></i>
+        <span>Students</span>
+    </a>
+
+    <a
+        href="{% url 'admin_teachers' %}"
+        class="sidebar-link active"
+    >
+        <i class="bi bi-person-badge-fill"></i>
+        <span>Teachers</span>
+    </a>
+
+    <a href="#" class="sidebar-link">
+        <i class="bi bi-book-fill"></i>
+        <span>Courses</span>
+    </a>
+
+    <a href="#" class="sidebar-link">
+        <i class="bi bi-building"></i>
+        <span>Departments</span>
+    </a>
+
+    <div class="nav-section-title mt-4">
+        Academics
+    </div>
+
+    <a href="#" class="sidebar-link">
+        <i class="bi bi-calendar-check-fill"></i>
+        <span>Attendance</span>
+    </a>
+
+    <a href="#" class="sidebar-link">
+        <i class="bi bi-award-fill"></i>
+        <span>Results</span>
+    </a>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+
+        <div>
+            <h1 class="fw-bold mb-1">
+                Teachers
+            </h1>
+
+            <p class="text-muted mb-0">
+                Manage teaching staff and assigned courses.
+            </p>
+        </div>
+
+        <div class="text-muted small">
+            {{ total_teachers }} teacher{{ total_teachers|pluralize }}
+        </div>
+
+    </div>
+
+
+    <div class="admin-panel">
+
+        <div class="admin-panel-heading">
+
+            <div>
+                <h5>
+                    All Teachers
+                </h5>
+
+                <p>
+                    Registered teaching staff and their assignments.
+                </p>
+            </div>
+
+            <a
+                href="/admin/teacher/teacher/add/"
+                class="btn btn-primary btn-sm"
+            >
+                <i class="bi bi-person-plus-fill me-1"></i>
+                Add Teacher
+            </a>
+
+        </div>
+
+
+        {% for teacher in teachers %}
+
+            <div class="admin-user-row">
+
+                <div class="admin-avatar">
+
+                    {% if teacher.user.first_name %}
+                        {{ teacher.user.first_name|first|upper }}
+                    {% else %}
+                        {{ teacher.user.username|first|upper }}
+                    {% endif %}
+
+                </div>
+
+
+                <div class="admin-user-main">
+
+                    <strong>
+                        {{ teacher.user.get_full_name|default:teacher.user.username }}
+                    </strong>
+
+                    <span>
+                        {{ teacher.employee_id }}
+                        ·
+                        {{ teacher.specialization|default:"General Teaching" }}
+                    </span>
+
+                </div>
+
+
+                <span class="badge text-bg-light">
+                    {{ teacher.courses.count }}
+                    course{{ teacher.courses.count|pluralize }}
+                </span>
+
+                <span class="admin-role-badge">
+                    Teacher
+                </span>
+
+            </div>
+
+        {% empty %}
+
+            <div class="text-center py-5 text-muted">
+
+                <i class="bi bi-person-badge display-5"></i>
+
+                <p class="mt-3 mb-0">
+                    No teachers have been registered yet.
+                </p>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+{% endblock %}

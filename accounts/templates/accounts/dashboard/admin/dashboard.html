@@ -42,7 +42,10 @@ Administration
     <span>Students</span>
 </a>
 
-<a href="#" class="sidebar-link">
+<a
+    href="{% url 'admin_teachers' %}"
+    class="sidebar-link"
+>
     <i class="bi bi-person-badge-fill"></i>
     <span>Teachers</span>
 </a>
@@ -390,15 +393,16 @@ Administration
                     <p>
                         Latest student registrations
                     </p>
+
+                    <a
+                        href="{% url 'admin_students' %}"
+                        class="small text-primary text-decoration-none"
+                    >
+                        View all
+                    </a>
                 </div>
 
                 <i class="bi bi-people text-primary"></i>
-                <a
-                    href="{% url 'admin_students' %}"
-                    class="small text-primary text-decoration-none"
-                >
-                    View all
-                </a>
 
             </div>
 
@@ -458,6 +462,10 @@ Administration
                     <p>
                         Latest teaching staff
                     </p>
+
+                    <a href="{% url 'admin_teachers' %}" class="small text-primary text-decoration-none">
+                        View all
+                    </a>
                 </div>
 
                 <i class="bi bi-person-badge text-primary"></i>

@@ -62,6 +62,38 @@ def admin_students(request):
         context,
     )
 
+
+@login_required
+def admin_teachers(request):
+    if not (request.user.is_superuser or request.user.role == "admin"):
+        raise PermissionDenied
+
+    teachers = (
+        Teacher.objects
+        .select_related("user")
+        .prefetch_related("courses")
+        .order_by(
+            "user__last_name",
+            "user__first_name",
+        )
+    )
+
+    context = {
+        "title": "Teachers",
+        "teachers": teachers,
+        "total_teachers": teachers.count(),
+    }
+
+    return render(
+        request,
+        "accounts/dashboard/admin/teachers.html",
+        context,
+    )
+
+
+
+
+
 @login_required
 def student_dashboard(request):
     if request.user.role != "student":

@@ -11,6 +11,7 @@ from accounts.views import (
 
     admin_dashboard,
     admin_students,
+    admin_teachers,
 
 
     student_courses,
@@ -30,6 +31,11 @@ urlpatterns = [
         "dashboard/admin/students/",
         admin_students,
         name="admin_students",
+    ),
+    path(
+        "dashboard/admin/teachers/",
+        admin_teachers,
+        name="admin_teachers",
     ),
 
     path('dashboard/teacher/', teacher_dashboard, name="teacher_dashboard"),
