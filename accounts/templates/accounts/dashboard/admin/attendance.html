@@ -1,0 +1,238 @@
+{% extends "accounts/dashboard/base.html" %}
+{% load static %}
+
+{% block title %}
+    Attendance | APTECHSys
+{% endblock %}
+
+{% block body_class %}
+    admin-dashboard
+{% endblock %}
+
+{% block extra_css %}
+    <link
+        rel="stylesheet"
+        href="{% static 'accounts/css/admin.css' %}"
+    >
+{% endblock %}
+
+{% block topbar_title %}
+    Attendance
+{% endblock %}
+
+{% block sidebar %}
+
+    <div class="nav-section-title">
+        Overview
+    </div>
+
+    <a
+        href="{% url 'admin_dashboard' %}"
+        class="sidebar-link"
+    >
+        <i class="bi bi-grid-1x2-fill"></i>
+        <span>Dashboard</span>
+    </a>
+
+    <div class="nav-section-title mt-4">
+        Management
+    </div>
+
+    <a
+        href="{% url 'admin_students' %}"
+        class="sidebar-link"
+    >
+        <i class="bi bi-people-fill"></i>
+        <span>Students</span>
+    </a>
+
+    <a
+        href="{% url 'admin_teachers' %}"
+        class="sidebar-link"
+    >
+        <i class="bi bi-person-badge-fill"></i>
+        <span>Teachers</span>
+    </a>
+
+    <a
+        href="{% url 'admin_courses' %}"
+        class="sidebar-link"
+    >
+        <i class="bi bi-book-fill"></i>
+        <span>Courses</span>
+    </a>
+
+    <a
+        href="{% url 'admin_departments' %}"
+        class="sidebar-link"
+    >
+        <i class="bi bi-building"></i>
+        <span>Departments</span>
+    </a>
+
+    <div class="nav-section-title mt-4">
+        Academics
+    </div>
+
+    <a
+        href="{% url 'admin_attendance' %}"
+        class="sidebar-link active"
+    >
+        <i class="bi bi-calendar-check-fill"></i>
+        <span>Attendance</span>
+    </a>
+
+    <a
+        href="{% url 'admin_results' %}"
+        class="sidebar-link"
+    >
+        <i class="bi bi-award-fill"></i>
+        <span>Results</span>
+    </a>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+
+        <div>
+            <h1 class="fw-bold mb-1">
+                Attendance
+            </h1>
+
+            <p class="text-muted mb-0">
+                Monitor attendance records across the institution.
+            </p>
+        </div>
+
+        <div class="text-muted small">
+            {{ total_records }} record{{ total_records|pluralize }}
+        </div>
+
+    </div>
+
+
+    <div class="admin-panel">
+
+        <div class="admin-panel-heading">
+
+            <div>
+                <h5>
+                    Attendance Records
+                </h5>
+
+                <p>
+                    Latest attendance activity across all courses.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="table-responsive">
+
+            <table class="table align-middle mb-0 admin-data-table">
+
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Course</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for record in attendance_records %}
+
+                        <tr>
+
+                            <td>
+
+                                <div class="d-flex align-items-center gap-2">
+
+                                    <div class="admin-avatar">
+                                        {% if record.student.user.first_name %}
+                                            {{ record.student.user.first_name|first|upper }}
+                                        {% else %}
+                                            {{ record.student.user.username|first|upper }}
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="admin-user-main">
+                                        <strong>
+                                            {{ record.student.user.get_full_name|default:record.student.user.username }}
+                                        </strong>
+
+                                        <span>
+                                            {{ record.student.student_id }}
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{ record.course.code }}
+                                </strong>
+                                <div class="text-muted small">
+                                    {{ record.course.name }}
+                                </div>
+                            </td>
+
+                            <td>
+                                {{ record.date|date:"M d, Y" }}
+                            </td>
+
+                            <td>
+
+                                {% if record.status == "present" %}
+
+                                    <span class="badge text-bg-success">
+                                        Present
+                                    </span>
+
+                                {% elif record.status == "late" %}
+
+                                    <span class="badge text-bg-warning">
+                                        Late
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge text-bg-danger">
+                                        Absent
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                    {% empty %}
+
+                        <tr>
+                            <td
+                                colspan="4"
+                                class="text-center py-5 text-muted"
+                            >
+                                No attendance records have been recorded yet.
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+{% endblock %}
