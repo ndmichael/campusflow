@@ -1,0 +1,920 @@
+{% extends "accounts/dashboard/base.html" %}
+{% load static %}
+
+{% block title %}
+Student Dashboard | APTECHSys
+{% endblock %}
+
+{% block body_class %}
+student-dashboard
+{% endblock %}
+
+{% block extra_css %}
+<link
+    rel="stylesheet"
+    href="{% static 'accounts/css/student.css' %}"
+>
+{% endblock %}
+
+{% block topbar_title %}
+Student Dashboard
+{% endblock %}
+
+
+{% block sidebar %}
+
+<div class="nav-section-title">
+    Overview
+</div>
+
+<a href="{% url 'student_dashboard' %}" class="sidebar-link active">
+    <i class="bi bi-grid-1x2-fill"></i>
+    <span>Dashboard</span>
+</a>
+
+
+<div class="nav-section-title mt-4">
+    Academics
+</div>
+
+<a href="{% url 'student_courses' %}" class="sidebar-link">
+    <i class="bi bi-book-fill"></i>
+    <span>My Courses</span>
+</a>
+
+<a href="{% url 'student_attendance' %}" class="sidebar-link">
+    <i class="bi bi-calendar-check-fill"></i>
+    <span>Attendance</span>
+</a>
+
+<a href="{% url 'student_results' %}" class="sidebar-link">
+    <i class="bi bi-award-fill"></i>
+    <span>Results</span>
+</a>
+
+
+<div class="nav-section-title mt-4">
+    Account
+</div>
+
+<a href="{% url 'student_profile' %}" class="sidebar-link">
+    <i class="bi bi-person-fill"></i>
+    <span>My Profile</span>
+</a>
+
+{% endblock %}
+
+
+{% block content %}
+
+<!-- WELCOME -->
+
+<section class="student-welcome">
+
+    <div class="welcome-content">
+
+        <span class="welcome-label">
+            Student Portal
+        </span>
+
+        <h1>
+            Good morning,
+            {{ user.first_name|default:user.username }} 👋
+        </h1>
+
+        <p>
+            Keep track of your courses, attendance and academic performance
+            from one place.
+        </p>
+
+    </div>
+
+    <div class="welcome-decoration">
+        <i class="bi bi-mortarboard-fill"></i>
+    </div>
+
+</section>
+
+
+<!-- KPI CARDS -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="student-stat-card">
+
+            <div class="d-flex justify-content-between align-items-start">
+
+                <div>
+                    <div class="stat-label">
+                        Enrolled Courses
+                    </div>
+
+                    <div class="stat-value">
+                        {{ total_courses }}
+                    </div>
+                </div>
+
+                <div class="stat-icon purple">
+                    <i class="bi bi-book-fill"></i>
+                </div>
+
+            </div>
+
+            <div class="stat-description">
+                Courses currently enrolled
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="student-stat-card">
+
+            <div class="d-flex justify-content-between align-items-start">
+
+                <div>
+                    <div class="stat-label">
+                        Attendance
+                    </div>
+
+                    <div class="stat-value">
+                        {{ attendance_percentage }}%
+                    </div>
+                </div>
+
+                <div class="stat-icon blue">
+                    <i class="bi bi-calendar-check-fill"></i>
+                </div>
+
+            </div>
+
+            <div class="stat-description">
+                Overall attendance rate
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="student-stat-card">
+
+            <div class="d-flex justify-content-between align-items-start">
+
+                <div>
+                    <div class="stat-label">
+                        Average Score
+                    </div>
+
+                    <div class="stat-value">
+                        {{ average_score }}
+                    </div>
+                </div>
+
+                <div class="stat-icon green">
+                    <i class="bi bi-graph-up-arrow"></i>
+                </div>
+
+            </div>
+
+            <div class="stat-description">
+                Across {{ result_count }} result{{ result_count|pluralize }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="student-stat-card">
+
+            <div class="d-flex justify-content-between align-items-start">
+
+                <div>
+                    <div class="stat-label">
+                        Classes Attended
+                    </div>
+
+                    <div class="stat-value">
+                        {{ present_count }}
+                    </div>
+                </div>
+
+                <div class="stat-icon orange">
+                    <i class="bi bi-check2-circle"></i>
+                </div>
+
+            </div>
+
+            <div class="stat-description">
+                {{ late_count }} late attendance record{{ late_count|pluralize }}
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- CHARTS -->
+
+<div class="row g-4 mb-4">
+
+    <!-- PERFORMANCE CHART -->
+
+    <div class="col-12 col-xl-8">
+
+        <div class="student-panel chart-panel">
+
+            <div class="panel-heading">
+
+                <div>
+                    <h5>
+                        Academic Performance
+                    </h5>
+
+                    <p class="panel-subtitle">
+                        Your recent course scores
+                    </p>
+                </div>
+
+                <div class="panel-icon">
+                    <i class="bi bi-bar-chart-line-fill"></i>
+                </div>
+
+            </div>
+
+
+            {% if performance_chart %}
+
+            <div class="chart-container">
+                <canvas id="performanceChart"></canvas>
+            </div>
+
+            {% else %}
+
+            <div class="empty-state">
+
+                <div class="empty-state-icon">
+                    <i class="bi bi-graph-up"></i>
+                </div>
+
+                <h6>No performance data yet</h6>
+
+                <p>
+                    Your performance chart will appear when results are
+                    available.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- ATTENDANCE CHART -->
+
+    <div class="col-12 col-xl-4">
+
+        <div class="student-panel chart-panel">
+
+            <div class="panel-heading">
+
+                <div>
+                    <h5>
+                        Attendance
+                    </h5>
+
+                    <p class="panel-subtitle">
+                        Attendance breakdown
+                    </p>
+                </div>
+
+                <div class="panel-icon">
+                    <i class="bi bi-pie-chart-fill"></i>
+                </div>
+
+            </div>
+
+
+            {% if total_attendance %}
+
+            <div class="attendance-chart-wrapper">
+                <canvas id="attendanceChart"></canvas>
+
+                <div class="attendance-center">
+                    <strong>{{ attendance_percentage }}%</strong>
+                    <span>Attendance</span>
+                </div>
+            </div>
+
+
+            <div class="attendance-legend">
+
+                <div>
+                    <span class="legend-dot present"></span>
+                    Present
+                    <strong>{{ present_count }}</strong>
+                </div>
+
+                <div>
+                    <span class="legend-dot late"></span>
+                    Late
+                    <strong>{{ late_count }}</strong>
+                </div>
+
+                <div>
+                    <span class="legend-dot absent"></span>
+                    Absent
+                    <strong>{{ absent_count }}</strong>
+                </div>
+
+            </div>
+
+            {% else %}
+
+            <div class="empty-state">
+
+                <div class="empty-state-icon">
+                    <i class="bi bi-calendar-x"></i>
+                </div>
+
+                <h6>No attendance data</h6>
+
+                <p>
+                    Attendance information will appear here.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- COURSES + RECENT ACTIVITY -->
+
+<div class="row g-4 mb-4">
+
+    <!-- COURSES -->
+
+    <div class="col-12 col-xl-7">
+
+        <div class="student-panel">
+
+            <div class="panel-heading">
+
+                <div>
+                    <h5>
+                        My Courses
+                    </h5>
+
+                    <p class="panel-subtitle">
+                        Your currently enrolled courses
+                    </p>
+                </div>
+
+                <a href="{% url 'student_courses' %}">
+                    View all
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+
+            </div>
+
+
+            {% for enrollment in recent_courses %}
+
+            <div class="course-item">
+
+                <div class="course-avatar">
+
+                    <i class="bi bi-book-fill"></i>
+
+                </div>
+
+
+                <div class="course-main">
+
+                    <div class="course-code">
+                        {{ enrollment.course.code }}
+                    </div>
+
+                    <div class="course-name">
+                        {{ enrollment.course.name }}
+                    </div>
+
+                    <div class="course-meta">
+
+                        <span>
+                            <i class="bi bi-building"></i>
+                            {{ enrollment.course.department.name }}
+                        </span>
+
+                        {% if enrollment.course.teacher %}
+
+                        <span>
+                            <i class="bi bi-person"></i>
+                            {{ enrollment.course.teacher.user.get_full_name }}
+                        </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <div class="course-arrow">
+                    <i class="bi bi-chevron-right"></i>
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <div class="empty-state">
+
+                <div class="empty-state-icon">
+                    <i class="bi bi-journal-x"></i>
+                </div>
+
+                <h6>No courses yet</h6>
+
+                <p>
+                    You are not enrolled in any courses yet.
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+    <!-- RECENT ACTIVITY -->
+
+    <div class="col-12 col-xl-5">
+
+        <div class="student-panel">
+
+            <div class="panel-heading">
+
+                <div>
+                    <h5>
+                        Recent Activity
+                    </h5>
+
+                    <p class="panel-subtitle">
+                        Latest attendance records
+                    </p>
+                </div>
+
+                <div class="panel-icon">
+                    <i class="bi bi-clock-history"></i>
+                </div>
+
+            </div>
+
+
+            {% for record in recent_attendance %}
+
+            <div class="activity-item">
+
+                <div class="activity-icon
+                    {% if record.status == 'present' %}
+                        activity-present
+                    {% elif record.status == 'late' %}
+                        activity-late
+                    {% else %}
+                        activity-absent
+                    {% endif %}
+                ">
+
+                    {% if record.status == "present" %}
+                        <i class="bi bi-check-lg"></i>
+                    {% elif record.status == "late" %}
+                        <i class="bi bi-clock"></i>
+                    {% else %}
+                        <i class="bi bi-x-lg"></i>
+                    {% endif %}
+
+                </div>
+
+
+                <div class="activity-content">
+
+                    <strong>
+                        {{ record.course.code }}
+                    </strong>
+
+                    <span>
+                        {{ record.course.name }}
+                    </span>
+
+                    <small>
+                        {{ record.date|date:"M d, Y" }}
+                    </small>
+
+                </div>
+
+
+                <span class="activity-status
+                    {% if record.status == 'present' %}
+                        status-present
+                    {% elif record.status == 'late' %}
+                        status-late
+                    {% else %}
+                        status-absent
+                    {% endif %}
+                ">
+                    {{ record.status|title }}
+                </span>
+
+            </div>
+
+            {% empty %}
+
+            <div class="empty-state">
+
+                <div class="empty-state-icon">
+                    <i class="bi bi-clock-history"></i>
+                </div>
+
+                <h6>No recent activity</h6>
+
+                <p>
+                    Your latest academic activity will appear here.
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- RESULTS -->
+
+<div class="student-panel mb-4">
+
+    <div class="panel-heading">
+
+        <div>
+            <h5>
+                Recent Results
+            </h5>
+
+            <p class="panel-subtitle">
+                Your latest academic results
+            </p>
+        </div>
+
+        <a href="{% url 'student_results' %}">
+            View all
+            <i class="bi bi-arrow-right"></i>
+        </a>
+
+    </div>
+
+
+    <div class="table-responsive">
+
+        <table class="table student-table align-middle mb-0">
+
+            <thead>
+
+                <tr>
+                    <th>Course</th>
+                    <th>Code</th>
+                    <th>Score</th>
+                    <th>Grade</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for result in recent_results %}
+
+                <tr>
+
+                    <td>
+                        <strong>
+                            {{ result.course.name }}
+                        </strong>
+                    </td>
+
+                    <td>
+                        <span class="course-code-badge">
+                            {{ result.course.code }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <strong>
+                            {{ result.score }}
+                        </strong>
+                    </td>
+
+                    <td>
+
+                        {% if result.grade %}
+
+                        <span class="result-grade">
+                            {{ result.grade }}
+                        </span>
+
+                        {% else %}
+
+                        <span class="text-muted">
+                            —
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+            {% empty %}
+
+                <tr>
+
+                    <td colspan="4">
+
+                        <div class="empty-state compact">
+
+                            <div class="empty-state-icon">
+                                <i class="bi bi-award"></i>
+                            </div>
+
+                            <h6>No results available</h6>
+
+                            <p>
+                                Your academic results will appear here.
+                            </p>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<!-- PROFILE -->
+
+<div class="student-panel">
+
+    <div class="panel-heading">
+
+        <div>
+            <h5>
+                Student Profile
+            </h5>
+
+            <p class="panel-subtitle">
+                Your account information
+            </p>
+        </div>
+
+        <a href="{% url 'student_profile' %}">
+            Edit Profile
+        </a>
+
+    </div>
+
+
+    <div class="profile-card">
+
+        <div class="profile-avatar">
+            {{ user.first_name|first|upper }}
+        </div>
+
+        <div class="profile-details">
+
+            <div class="profile-name">
+                {{ user.get_full_name|default:user.username }}
+            </div>
+
+            <div class="profile-id">
+                Student ID: {{ student.student_id }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="profile-info-grid mt-4">
+
+        <div>
+            <span>Email</span>
+            <strong>{{ user.email }}</strong>
+        </div>
+
+        <div>
+            <span>Phone</span>
+            <strong>
+                {{ student.phone|default:"Not provided" }}
+            </strong>
+        </div>
+
+        <div>
+            <span>Admission Date</span>
+            <strong>
+                {{ student.admission_date|date:"M d, Y" }}
+            </strong>
+        </div>
+
+        <div>
+            <span>Date of Birth</span>
+            <strong>
+                {% if student.date_of_birth %}
+                    {{ student.date_of_birth|date:"M d, Y" }}
+                {% else %}
+                    Not provided
+                {% endif %}
+            </strong>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+{{ performance_chart|json_script:"performance-data" }}
+{{ attendance_chart|json_script:"attendance-data" }}
+
+<script>
+
+    const performanceData =
+        JSON.parse(
+            document.getElementById("performance-data").textContent
+        );
+
+    const attendanceData =
+        JSON.parse(
+            document.getElementById("attendance-data").textContent
+        );
+
+
+    /* PERFORMANCE CHART */
+
+    const performanceCanvas =
+        document.getElementById("performanceChart");
+
+    if (performanceCanvas && performanceData.length) {
+
+        new Chart(performanceCanvas, {
+
+            type: "line",
+
+            data: {
+                labels: performanceData.map(item => item.label),
+
+                datasets: [{
+                    label: "Score",
+
+                    data: performanceData.map(item => item.score),
+
+                    tension: 0.4,
+
+                    fill: true,
+
+                    borderWidth: 3,
+
+                    pointRadius: 4,
+
+                    pointHoverRadius: 6
+                }]
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+
+                scales: {
+
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+
+                        ticks: {
+                            stepSize: 20
+                        }
+                    },
+
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+
+                }
+            }
+
+        });
+
+    }
+
+
+    /* ATTENDANCE CHART */
+
+    const attendanceCanvas =
+        document.getElementById("attendanceChart");
+
+    if (attendanceCanvas && attendanceData) {
+
+        new Chart(attendanceCanvas, {
+
+            type: "doughnut",
+
+            data: {
+
+                labels: [
+                    "Present",
+                    "Late",
+                    "Absent"
+                ],
+
+                datasets: [{
+                    data: [
+                        attendanceData.present,
+                        attendanceData.late,
+                        attendanceData.absent
+                    ],
+
+                    borderWidth: 0
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                cutout: "72%",
+
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+
+        });
+
+    }
+
+</script>
+
+{% endblock %}

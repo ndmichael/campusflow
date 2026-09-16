@@ -1,0 +1,403 @@
+{% extends "accounts/dashboard/base.html" %}
+
+{% load static %}
+
+{% block title %}
+Student Results | APTECHSys
+{% endblock %}
+
+{% block extra_css %} <link
+     rel="stylesheet"
+     href="{% static 'accounts/css/student.css' %}"
+ >
+{% endblock %}
+
+{% block body_class %}
+student-dashboard
+{% endblock %}
+
+{% block topbar_title %}
+Results
+{% endblock %}
+
+{% block sidebar %}
+
+<div class="nav-section-title">
+    Overview
+</div>
+
+<a
+    href="{% url 'student_dashboard' %}"
+    class="sidebar-link"
+>
+    <i class="bi bi-grid-1x2-fill"></i>
+    <span>Dashboard</span>
+</a>
+
+
+<div class="nav-section-title mt-4">
+    Academics
+</div>
+
+<a
+    href="{% url 'student_courses' %}"
+    class="sidebar-link"
+>
+    <i class="bi bi-book"></i>
+    <span>My Courses</span>
+</a>
+
+<a
+    href="{% url 'student_attendance' %}"
+    class="sidebar-link"
+>
+    <i class="bi bi-calendar-check"></i>
+    <span>Attendance</span>
+</a>
+
+<a
+    href="{% url 'student_results' %}"
+    class="sidebar-link active"
+>
+    <i class="bi bi-bar-chart"></i>
+    <span>Results</span>
+</a>
+
+
+<div class="nav-section-title mt-4">
+    Account
+</div>
+
+<a
+    href="{% url 'student_profile' %}"
+    class="sidebar-link"
+>
+    <i class="bi bi-person"></i>
+    <span>My Profile</span>
+</a>
+
+
+{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+
+<div class="page-header mb-4">
+
+<div>
+    <h1 class="page-title">
+        My Results
+    </h1>
+
+    <p class="page-description">
+        Review your academic performance across all recorded courses.
+    </p>
+</div>
+
+</div>
+
+<!-- =====================================================
+     SUMMARY CARDS
+====================================================== -->
+
+<div class="row g-4 mb-4">
+
+<div class="col-12 col-sm-6 col-xl-3">
+
+    <div class="student-stat-card">
+
+        <div class="d-flex justify-content-between align-items-start">
+
+            <div>
+
+                <div class="stat-label">
+                    Total Results
+                </div>
+
+                <div class="stat-value">
+                    {{ total_results }}
+                </div>
+
+            </div>
+
+            <div class="stat-icon purple">
+                <i class="bi bi-journal-check"></i>
+            </div>
+
+        </div>
+
+        <div class="stat-description">
+            Recorded academic results
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="col-12 col-sm-6 col-xl-3">
+
+    <div class="student-stat-card">
+
+        <div class="d-flex justify-content-between align-items-start">
+
+            <div>
+
+                <div class="stat-label">
+                    Average Score
+                </div>
+
+                <div class="stat-value">
+                    {{ average_score }}%
+                </div>
+
+            </div>
+
+            <div class="stat-icon blue">
+                <i class="bi bi-graph-up-arrow"></i>
+            </div>
+
+        </div>
+
+        <div class="stat-description">
+            Average across all results
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="col-12 col-sm-6 col-xl-3">
+
+    <div class="student-stat-card">
+
+        <div class="d-flex justify-content-between align-items-start">
+
+            <div>
+
+                <div class="stat-label">
+                    Highest Score
+                </div>
+
+                <div class="stat-value">
+                    {{ highest_score }}%
+                </div>
+
+            </div>
+
+            <div class="stat-icon green">
+                <i class="bi bi-trophy"></i>
+            </div>
+
+        </div>
+
+        <div class="stat-description">
+            Best recorded score
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="col-12 col-sm-6 col-xl-3">
+
+    <div class="student-stat-card">
+
+        <div class="d-flex justify-content-between align-items-start">
+
+            <div>
+
+                <div class="stat-label">
+                    Passed
+                </div>
+
+                <div class="stat-value">
+                    {{ passed_count }}
+                </div>
+
+            </div>
+
+            <div class="stat-icon orange">
+                <i class="bi bi-check-circle"></i>
+            </div>
+
+        </div>
+
+        <div class="stat-description">
+            {{ failed_count }} failed
+            result{{ failed_count|pluralize }}
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     RESULTS
+====================================================== -->
+
+<div class="student-panel">
+
+<div class="panel-heading">
+
+    <div>
+
+        <h5>
+            Academic Results
+        </h5>
+
+        <p class="panel-subtitle">
+            Your recorded course results
+        </p>
+
+    </div>
+
+</div>
+
+
+{% if results %}
+
+    <div class="table-responsive">
+
+        <table class="table student-results-table align-middle mb-0">
+
+            <thead>
+
+                <tr>
+                    <th>#</th>
+                    <th>Course</th>
+                    <th>Department</th>
+                    <th>Score</th>
+                    <th>Grade</th>
+                    <th>Status</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for result in results %}
+
+                    <tr>
+
+                        <td>
+                            {{ forloop.counter }}
+                        </td>
+
+
+                        <td>
+
+                            <div class="result-course">
+
+                                <strong>
+                                    {{ result.course.code }}
+                                </strong>
+
+                                <span>
+                                    {{ result.course.name }}
+                                </span>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+                            {{ result.course.department.name }}
+                        </td>
+
+
+                        <td>
+
+                            <span class="result-score">
+                                {{ result.score }}%
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            {% if result.grade %}
+
+                                <span class="result-grade">
+                                    {{ result.grade }}
+                                </span>
+
+                            {% else %}
+
+                                <span class="text-muted">
+                                    —
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            {% if result.score >= 40 %}
+
+                                <span class="result-status passed">
+
+                                    <i class="bi bi-check-circle-fill"></i>
+
+                                    Passed
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="result-status failed">
+
+                                    <i class="bi bi-x-circle-fill"></i>
+
+                                    Failed
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+{% else %}
+
+    <div class="empty-state">
+
+        <div class="empty-state-icon">
+            <i class="bi bi-bar-chart"></i>
+        </div>
+
+        <h6>
+            No results available
+        </h6>
+
+        <p>
+            Your academic results will appear here once they have been recorded.
+        </p>
+
+    </div>
+
+{% endif %}
+
+
+</div>
+
+{% endblock %}

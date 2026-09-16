@@ -1,0 +1,499 @@
+:root {
+
+    --primary:#2563eb;
+    --dark:#081426;
+    --text:#172033;
+    --muted:#64748b;
+    --light:#f8fafc;
+    --border:#e2e8f0;
+
+}
+
+
+* {
+    box-sizing:border-box;
+}
+
+
+
+body {
+
+    font-family:
+    Inter,
+    system-ui,
+    sans-serif;
+
+    color:var(--text);
+
+    background:white;
+
+}
+
+
+
+/* NAVBAR */
+
+
+.navbar {
+
+    background:
+    linear-gradient(90deg,#081426,#102b55);
+
+}
+
+
+
+.brand-box {
+
+    width:46px;
+
+    height:46px;
+
+    border-radius:14px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:var(--primary);
+
+    color:white;
+
+    font-size:22px;
+
+}
+
+
+
+
+.btn-primary {
+
+    background:var(--primary);
+
+    border:none;
+
+    padding:12px 24px;
+
+}
+
+
+.btn-primary:hover {
+
+    background:#1d4ed8;
+
+}
+
+
+
+
+
+/* BADGES */
+
+
+.section-badge {
+
+    display:inline-flex;
+
+    gap:8px;
+
+    align-items:center;
+
+    background:#eff6ff;
+
+    color:var(--primary);
+
+    padding:8px 18px;
+
+    border-radius:50px;
+
+    font-weight:600;
+
+}
+
+
+
+
+
+/* TITLES */
+
+
+.display-title {
+
+    font-size:clamp(2.5rem,5vw,4rem);
+
+    font-weight:800;
+
+    letter-spacing:-2px;
+
+}
+
+
+.display-title span {
+
+    color:var(--primary);
+
+}
+
+
+
+.hero-text {
+
+    max-width:650px;
+
+    color:var(--muted);
+
+    font-size:1.15rem;
+
+    line-height:1.8;
+
+}
+
+
+
+
+
+/* ABOUT / CONTACT HERO */
+
+
+.about-hero,
+.contact-hero {
+
+    padding:100px 0;
+
+    background:
+
+    radial-gradient(circle at top right,#dbeafe,transparent 35%),
+
+    linear-gradient(#fff,#f8fafc);
+
+}
+
+
+
+
+
+
+
+/* IMAGES */
+
+
+.about-image-wrapper {
+
+    position:relative;
+
+}
+
+
+
+.about-main-image {
+
+    width:100%;
+
+    border-radius:30px;
+
+    box-shadow:
+    0 30px 70px rgba(0,0,0,.15);
+
+}
+
+
+
+.floating-card {
+
+    position:absolute;
+
+    bottom:25px;
+
+    left:25px;
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:20px;
+
+    display:flex;
+
+    gap:15px;
+
+    box-shadow:
+    0 15px 40px rgba(0,0,0,.15);
+
+}
+
+
+
+
+
+/* CARDS */
+
+
+.stat-box,
+.architecture-box,
+.system-card,
+.info-card,
+.contact-info-card,
+.contact-form-card {
+
+    background:white;
+
+    border:1px solid var(--border);
+
+    border-radius:24px;
+
+    padding:30px;
+
+    box-shadow:
+    0 15px 35px rgba(0,0,0,.06);
+
+}
+
+
+
+
+
+/* STATS */
+
+
+.stats-section {
+
+    padding:80px 0;
+
+    background:var(--light);
+
+}
+
+
+.stat-box {
+
+    text-align:center;
+
+}
+
+
+
+.stat-box i {
+
+    color:var(--primary);
+
+    font-size:35px;
+
+}
+
+
+
+
+/* ARCHITECTURE */
+
+
+.architecture-flow {
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
+}
+
+
+
+.flow-card {
+
+    padding:30px;
+
+    background:white;
+
+    border-radius:20px;
+
+    border:1px solid var(--border);
+
+    text-align:center;
+
+}
+
+
+
+.flow-card i {
+
+    color:var(--primary);
+
+    font-size:35px;
+
+}
+
+
+
+
+/* BACKEND */
+
+
+.backend-image {
+
+    width:100%;
+
+    border-radius:25px;
+
+}
+
+
+
+.check-item {
+
+    margin-top:15px;
+
+    font-size:1.1rem;
+
+}
+
+
+
+.check-item i {
+
+    color:#16a34a;
+
+    margin-right:10px;
+
+}
+
+
+
+
+
+/* CONTACT */
+
+
+.contact-section {
+
+    padding:80px 0;
+
+}
+
+
+
+.contact-item {
+
+    display:flex;
+
+    gap:20px;
+
+    margin-top:30px;
+
+}
+
+
+
+.contact-icon {
+
+    width:50px;
+
+    height:50px;
+
+    border-radius:15px;
+
+    background:#eff6ff;
+
+    color:var(--primary);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:20px;
+
+}
+
+
+
+.contact-item p {
+
+    color:var(--muted);
+
+}
+
+
+
+.form-control {
+
+    padding:14px;
+
+    border-radius:14px;
+
+    border:1px solid var(--border);
+
+}
+
+
+.form-control:focus {
+
+    border-color:#93c5fd;
+
+    box-shadow:
+    0 0 0 .25rem rgba(37,99,235,.15);
+
+}
+
+
+
+
+
+
+/* FOOTER */
+
+
+.footer {
+
+    background:var(--dark);
+
+    color:white;
+
+    padding:35px 0;
+
+}
+
+
+
+.footer p {
+
+    color:#94a3b8;
+
+    margin:5px 0 0;
+
+}
+
+
+
+
+
+
+@media(max-width:768px){
+
+    .display-title {
+
+        font-size:2.4rem;
+
+    }
+
+
+    .floating-card {
+
+        position:relative;
+
+        left:0;
+
+        bottom:0;
+
+        margin-top:20px;
+
+    }
+
+
+}

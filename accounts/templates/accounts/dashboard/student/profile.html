@@ -1,0 +1,420 @@
+{% extends "accounts/dashboard/base.html" %}
+
+{% load static %}
+
+{% block title %}
+My Profile | APTECHSys
+{% endblock %}
+
+{% block body_class %}
+student-dashboard
+{% endblock %}
+
+{% block extra_css %} <link
+     rel="stylesheet"
+     href="{% static 'accounts/css/student.css' %}"
+ >
+{% endblock %}
+
+{% block topbar_title %}
+My Profile
+{% endblock %}
+
+{% block sidebar %}
+
+
+<div class="nav-section-title">
+    Overview
+</div>
+
+<a
+    href="{% url 'student_dashboard' %}"
+    class="sidebar-link"
+>
+    <i class="bi bi-grid-1x2-fill"></i>
+    <span>Dashboard</span>
+</a>
+
+
+<div class="nav-section-title mt-4">
+    Academics
+</div>
+
+<a
+    href="{% url 'student_courses' %}"
+    class="sidebar-link"
+>
+    <i class="bi bi-book"></i>
+    <span>My Courses</span>
+</a>
+
+<a
+    href="{% url 'student_attendance' %}"
+    class="sidebar-link"
+>
+    <i class="bi bi-calendar-check"></i>
+    <span>Attendance</span>
+</a>
+
+<a
+    href="{% url 'student_results' %}"
+    class="sidebar-link"
+>
+    <i class="bi bi-bar-chart"></i>
+    <span>Results</span>
+</a>
+
+
+<div class="nav-section-title mt-4">
+    Account
+</div>
+
+<a
+    href="{% url 'student_profile' %}"
+    class="sidebar-link active"
+>
+    <i class="bi bi-person"></i>
+    <span>My Profile</span>
+</a>
+
+
+{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+
+<div class="page-header mb-4">
+
+
+<div>
+    <h1 class="page-title">
+        My Profile
+    </h1>
+
+    <p class="page-description">
+        View your personal and academic information.
+    </p>
+</div>
+
+
+</div>
+
+<div class="row g-4">
+
+<!-- =====================================================
+     PROFILE SUMMARY
+====================================================== -->
+
+<div class="col-12 col-lg-4">
+
+    <div class="student-profile-card">
+
+        <div class="student-profile-avatar">
+
+            {% if user.first_name %}
+                {{ user.first_name|first|upper }}
+            {% else %}
+                {{ user.username|first|upper }}
+            {% endif %}
+
+        </div>
+
+
+        <h3>
+            {{ user.get_full_name|default:user.username }}
+        </h3>
+
+
+        <p class="profile-role">
+            Student
+        </p>
+
+
+        <div class="profile-student-id">
+            {{ student.student_id }}
+        </div>
+
+
+        <div class="profile-summary">
+
+            <div>
+                <strong>
+                    {{ total_courses }}
+                </strong>
+
+                <span>
+                    Courses
+                </span>
+            </div>
+
+
+            <div>
+                <strong>
+                    {{ attendance_percentage }}%
+                </strong>
+
+                <span>
+                    Attendance
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     PROFILE DETAILS
+====================================================== -->
+
+<div class="col-12 col-lg-8">
+
+    <div class="student-panel">
+
+        <div class="panel-heading">
+
+            <div>
+                <h5>
+                    Personal & Academic Information
+                </h5>
+
+                <p class="panel-subtitle">
+                    Your account and student registration details
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="profile-info-grid">
+
+
+            <!-- PERSONAL INFORMATION -->
+
+            <div class="profile-info-item">
+
+                <span>
+                    First Name
+                </span>
+
+                <strong>
+                    {{ user.first_name|default:"Not provided" }}
+                </strong>
+
+            </div>
+
+
+            <div class="profile-info-item">
+
+                <span>
+                    Last Name
+                </span>
+
+                <strong>
+                    {{ user.last_name|default:"Not provided" }}
+                </strong>
+
+            </div>
+
+
+            <div class="profile-info-item">
+
+                <span>
+                    Username
+                </span>
+
+                <strong>
+                    {{ user.username }}
+                </strong>
+
+            </div>
+
+
+            <div class="profile-info-item">
+
+                <span>
+                    Email
+                </span>
+
+                <strong>
+                    {{ user.email }}
+                </strong>
+
+            </div>
+
+
+            <div class="profile-info-item">
+
+                <span>
+                    Phone
+                </span>
+
+                <strong>
+                    {{ student.phone|default:"Not provided" }}
+                </strong>
+
+            </div>
+
+
+            <div class="profile-info-item">
+
+                <span>
+                    Date of Birth
+                </span>
+
+                <strong>
+
+                    {% if student.date_of_birth %}
+                        {{ student.date_of_birth|date:"d M Y" }}
+                    {% else %}
+                        Not provided
+                    {% endif %}
+
+                </strong>
+
+            </div>
+
+
+            <!-- ACADEMIC INFORMATION -->
+
+            <div class="profile-info-item">
+
+                <span>
+                    Student ID
+                </span>
+
+                <strong>
+                    {{ student.student_id }}
+                </strong>
+
+            </div>
+
+
+            <div class="profile-info-item">
+
+                <span>
+                    Admission Date
+                </span>
+
+                <strong>
+                    {{ student.admission_date|date:"d M Y" }}
+                </strong>
+
+            </div>
+
+
+            <div class="profile-info-item profile-info-full">
+
+                <span>
+                    Address
+                </span>
+
+                <strong>
+                    {{ student.address|default:"Not provided" }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     ENROLLED COURSES
+====================================================== -->
+
+<div class="col-12">
+
+    <div class="student-panel">
+
+        <div class="panel-heading">
+
+            <div>
+
+                <h5>
+                    Enrolled Courses
+                </h5>
+
+                <p class="panel-subtitle">
+                    Courses currently linked to your account
+                </p>
+
+            </div>
+
+
+            <a
+                href="{% url 'student_courses' %}"
+                class="student-section-link"
+            >
+                View all
+                <i class="bi bi-arrow-right"></i>
+            </a>
+
+        </div>
+
+
+        {% if enrollments %}
+
+            <div class="profile-course-list">
+
+                {% for enrollment in enrollments|slice:":5" %}
+
+                    <div class="profile-course-item">
+
+                        <div>
+
+                            <strong>
+                                {{ enrollment.course.code }}
+                            </strong>
+
+                            <span>
+                                {{ enrollment.course.name }}
+                            </span>
+
+                        </div>
+
+
+                        <span class="profile-course-department">
+                            {{ enrollment.course.department.name }}
+                        </span>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="empty-state">
+
+                <div class="empty-state-icon">
+                    <i class="bi bi-journal-x"></i>
+                </div>
+
+                <h6>
+                    No courses assigned
+                </h6>
+
+                <p>
+                    No courses have been assigned to your account yet.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+</div>
+
+{% endblock %}

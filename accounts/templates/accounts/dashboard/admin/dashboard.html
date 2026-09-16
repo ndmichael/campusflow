@@ -1,0 +1,711 @@
+{% extends "accounts/dashboard/base.html" %}
+{% load static %}
+
+{% block title %}
+Admin Dashboard | APTECHSys
+{% endblock %}
+
+{% block body_class %}
+admin-dashboard
+{% endblock %}
+
+{% block extra_css %}
+<link
+    rel="stylesheet"
+    href="{% static 'accounts/css/admin.css' %}"
+>
+{% endblock %}
+
+{% block topbar_title %}
+Administration
+{% endblock %}
+
+
+{% block sidebar %}
+
+<div class="nav-section-title">
+    Overview
+</div>
+
+<a href="{% url 'admin_dashboard' %}" class="sidebar-link active">
+    <i class="bi bi-grid-1x2-fill"></i>
+    <span>Dashboard</span>
+</a>
+
+
+<div class="nav-section-title mt-4">
+    Management
+</div>
+
+<a href="#" class="sidebar-link">
+    <i class="bi bi-people-fill"></i>
+    <span>Students</span>
+</a>
+
+<a href="#" class="sidebar-link">
+    <i class="bi bi-person-badge-fill"></i>
+    <span>Teachers</span>
+</a>
+
+<a href="#" class="sidebar-link">
+    <i class="bi bi-book-fill"></i>
+    <span>Courses</span>
+</a>
+
+<a href="#" class="sidebar-link">
+    <i class="bi bi-building"></i>
+    <span>Departments</span>
+</a>
+
+
+<div class="nav-section-title mt-4">
+    Academics
+</div>
+
+<a href="#" class="sidebar-link">
+    <i class="bi bi-calendar-check-fill"></i>
+    <span>Attendance</span>
+</a>
+
+<a href="#" class="sidebar-link">
+    <i class="bi bi-award-fill"></i>
+    <span>Results</span>
+</a>
+
+{% endblock %}
+
+
+{% block content %}
+
+<section class="admin-welcome">
+
+    <span class="admin-welcome-badge">
+        Administration Portal
+    </span>
+
+    <h1>
+        Welcome back,
+        {{ user.first_name|default:user.username }} 👋
+    </h1>
+
+    <p>
+        Here's an overview of the institution's academic management system.
+    </p>
+
+</section>
+
+
+<!-- SYSTEM STATISTICS -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="admin-stat-card">
+
+            <div class="admin-stat-icon">
+                <i class="bi bi-people-fill"></i>
+            </div>
+
+            <div class="admin-stat-label">
+                Students
+            </div>
+
+            <div class="admin-stat-value">
+                {{ total_students }}
+            </div>
+
+            <div class="admin-stat-description">
+                Registered students
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="admin-stat-card">
+
+            <div class="admin-stat-icon">
+                <i class="bi bi-person-badge-fill"></i>
+            </div>
+
+            <div class="admin-stat-label">
+                Teachers
+            </div>
+
+            <div class="admin-stat-value">
+                {{ total_teachers }}
+            </div>
+
+            <div class="admin-stat-description">
+                Teaching staff
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="admin-stat-card">
+
+            <div class="admin-stat-icon">
+                <i class="bi bi-book-fill"></i>
+            </div>
+
+            <div class="admin-stat-label">
+                Courses
+            </div>
+
+            <div class="admin-stat-value">
+                {{ total_courses }}
+            </div>
+
+            <div class="admin-stat-description">
+                Academic courses
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="admin-stat-card">
+
+            <div class="admin-stat-icon">
+                <i class="bi bi-building"></i>
+            </div>
+
+            <div class="admin-stat-label">
+                Departments
+            </div>
+
+            <div class="admin-stat-value">
+                {{ total_departments }}
+            </div>
+
+            <div class="admin-stat-description">
+                Academic departments
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- OVERVIEW ROW -->
+
+<div class="row g-4 mb-4">
+
+    <!-- ATTENDANCE -->
+
+    <div class="col-12 col-xl-5">
+
+        <div class="admin-panel">
+
+            <div class="admin-panel-heading">
+
+                <div>
+                    <h5>
+                        Attendance Overview
+                    </h5>
+
+                    <p>
+                        System-wide attendance statistics
+                    </p>
+                </div>
+
+                <i class="bi bi-calendar-check text-primary"></i>
+
+            </div>
+
+
+            <div class="admin-attendance-number">
+                {{ attendance_percentage }}%
+            </div>
+
+            <div class="text-muted small">
+                Present attendance rate
+            </div>
+
+
+            <div class="admin-progress">
+
+                <div
+                    class="admin-progress-bar"
+                    style="width: {{ attendance_percentage }}%;"
+                ></div>
+
+            </div>
+
+
+            <div class="admin-attendance-stats">
+
+                <div class="admin-attendance-stat">
+                    <strong>{{ present_count }}</strong>
+                    <span>Present</span>
+                </div>
+
+                <div class="admin-attendance-stat">
+                    <strong>{{ late_count }}</strong>
+                    <span>Late</span>
+                </div>
+
+                <div class="admin-attendance-stat">
+                    <strong>{{ absent_count }}</strong>
+                    <span>Absent</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SYSTEM OVERVIEW -->
+
+    <div class="col-12 col-xl-7">
+
+        <div class="admin-panel">
+
+            <div class="admin-panel-heading">
+
+                <div>
+                    <h5>
+                        System Overview
+                    </h5>
+
+                    <p>
+                        Current academic activity
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="admin-overview-item">
+
+                <div class="admin-overview-icon">
+                    <i class="bi bi-journal-check"></i>
+                </div>
+
+                <div class="admin-overview-main">
+                    <strong>Enrollments</strong>
+                    <span>Total course enrollments</span>
+                </div>
+
+                <strong>
+                    {{ total_enrollments }}
+                </strong>
+
+            </div>
+
+
+            <div class="admin-overview-item">
+
+                <div class="admin-overview-icon">
+                    <i class="bi bi-bar-chart-fill"></i>
+                </div>
+
+                <div class="admin-overview-main">
+                    <strong>Results</strong>
+                    <span>Recorded academic results</span>
+                </div>
+
+                <strong>
+                    {{ total_results }}
+                </strong>
+
+            </div>
+
+
+            <div class="admin-overview-item">
+
+                <div class="admin-overview-icon">
+                    <i class="bi bi-graph-up-arrow"></i>
+                </div>
+
+                <div class="admin-overview-main">
+                    <strong>Average Score</strong>
+                    <span>Overall academic performance</span>
+                </div>
+
+                <strong>
+                    {{ average_score }}
+                </strong>
+
+            </div>
+
+
+            <div class="admin-overview-item">
+
+                <div class="admin-overview-icon">
+                    <i class="bi bi-calendar3"></i>
+                </div>
+
+                <div class="admin-overview-main">
+                    <strong>Attendance Records</strong>
+                    <span>Total recorded attendance</span>
+                </div>
+
+                <strong>
+                    {{ total_attendance }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- MANAGEMENT + DEPARTMENTS -->
+
+<div class="row g-4 mb-4">
+
+    <!-- RECENT STUDENTS -->
+
+    <div class="col-12 col-xl-4">
+
+        <div class="admin-panel">
+
+            <div class="admin-panel-heading">
+
+                <div>
+                    <h5>
+                        Recent Students
+                    </h5>
+
+                    <p>
+                        Latest student registrations
+                    </p>
+                </div>
+
+                <i class="bi bi-people text-primary"></i>
+
+            </div>
+
+
+            {% for student in recent_students %}
+
+            <div class="admin-user-row">
+
+                <div class="admin-avatar">
+                    {{ student.user.first_name|first|upper }}
+                </div>
+
+                <div class="admin-user-main">
+
+                    <strong>
+                        {{ student.user.get_full_name|default:student.user.username }}
+                    </strong>
+
+                    <span>
+                        {{ student.student_id }}
+                    </span>
+
+                </div>
+
+                <span class="admin-role-badge">
+                    Student
+                </span>
+
+            </div>
+
+            {% empty %}
+
+            <p class="text-muted small">
+                No students available.
+            </p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+    <!-- RECENT TEACHERS -->
+
+    <div class="col-12 col-xl-4">
+
+        <div class="admin-panel">
+
+            <div class="admin-panel-heading">
+
+                <div>
+                    <h5>
+                        Recent Teachers
+                    </h5>
+
+                    <p>
+                        Latest teaching staff
+                    </p>
+                </div>
+
+                <i class="bi bi-person-badge text-primary"></i>
+
+            </div>
+
+
+            {% for teacher in recent_teachers %}
+
+            <div class="admin-user-row">
+
+                <div class="admin-avatar">
+                    {{ teacher.user.first_name|first|upper }}
+                </div>
+
+                <div class="admin-user-main">
+
+                    <strong>
+                        {{ teacher.user.get_full_name|default:teacher.user.username }}
+                    </strong>
+
+                    <span>
+                        {{ teacher.employee_id }}
+                    </span>
+
+                </div>
+
+                <span class="admin-role-badge">
+                    Teacher
+                </span>
+
+            </div>
+
+            {% empty %}
+
+            <p class="text-muted small">
+                No teachers available.
+            </p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+    <!-- QUICK ACTIONS -->
+
+    <div class="col-12 col-xl-4">
+
+        <div class="admin-panel">
+
+            <div class="admin-panel-heading">
+
+                <div>
+                    <h5>
+                        Quick Actions
+                    </h5>
+
+                    <p>
+                        Common administrative tasks
+                    </p>
+                </div>
+
+            </div>
+
+
+            <a href="/admin/students/student/add/" class="admin-action">
+
+                <div class="admin-action-icon">
+                    <i class="bi bi-person-plus"></i>
+                </div>
+
+                <div>
+                    <strong>Add Student</strong>
+                    <span>Create a new student profile</span>
+                </div>
+
+            </a>
+
+
+            <a href="/admin/teacher/teacher/add/" class="admin-action">
+
+                <div class="admin-action-icon">
+                    <i class="bi bi-person-plus-fill"></i>
+                </div>
+
+                <div>
+                    <strong>Add Teacher</strong>
+                    <span>Create teaching staff profile</span>
+                </div>
+
+            </a>
+
+
+            <a href="/admin/academics/course/add/" class="admin-action">
+
+                <div class="admin-action-icon">
+                    <i class="bi bi-journal-plus"></i>
+                </div>
+
+                <div>
+                    <strong>Add Course</strong>
+                    <span>Create an academic course</span>
+                </div>
+
+            </a>
+
+
+            <a href="/admin/academics/department/add/" class="admin-action">
+
+                <div class="admin-action-icon">
+                    <i class="bi bi-building-add"></i>
+                </div>
+
+                <div>
+                    <strong>Add Department</strong>
+                    <span>Create an academic department</span>
+                </div>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- COURSES + DEPARTMENTS -->
+
+<div class="row g-4">
+
+    <!-- COURSES -->
+
+    <div class="col-12 col-xl-7">
+
+        <div class="admin-panel">
+
+            <div class="admin-panel-heading">
+
+                <div>
+                    <h5>
+                        Recent Courses
+                    </h5>
+
+                    <p>
+                        Latest courses added to the system
+                    </p>
+                </div>
+
+            </div>
+
+
+            {% for course in recent_courses %}
+
+            <div class="admin-course">
+
+                <div class="admin-course-icon">
+                    <i class="bi bi-book"></i>
+                </div>
+
+                <div class="admin-course-main">
+
+                    <strong>
+                        {{ course.code }} — {{ course.name }}
+                    </strong>
+
+                    <span>
+                        {{ course.department.name }}
+
+                        {% if course.teacher %}
+                            · {{ course.teacher.user.get_full_name }}
+                        {% endif %}
+                    </span>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <p class="text-muted small">
+                No courses available.
+            </p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+    <!-- DEPARTMENTS -->
+
+    <div class="col-12 col-xl-5">
+
+        <div class="admin-panel">
+
+            <div class="admin-panel-heading">
+
+                <div>
+                    <h5>
+                        Departments
+                    </h5>
+
+                    <p>
+                        Courses by department
+                    </p>
+                </div>
+
+            </div>
+
+
+            {% for department in department_data %}
+
+            <div class="department-item">
+
+                <div class="department-top">
+
+                    <span class="department-name">
+                        {{ department.name }}
+                    </span>
+
+                    <span class="department-count">
+                        {{ department.courses }} course{{ department.courses|pluralize }}
+                    </span>
+
+                </div>
+
+
+                <div class="department-progress">
+
+                    <div
+                        class="department-progress-bar"
+                        style="width: {% if total_courses %}{{ department.courses|add:0 }}{% else %}0{% endif %}%;"
+                    ></div>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <p class="text-muted small">
+                No departments available.
+            </p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

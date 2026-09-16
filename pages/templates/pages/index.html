@@ -1,0 +1,240 @@
+{% extends "pages/base.html" %}
+
+{% block content %}
+
+<section class="hero-section py-5">
+    <div class="container py-4">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">
+                    <i class="bi bi-mortarboard-fill me-2"></i>
+                    Student Management System
+                </span>
+
+                <h1 class="display-4 fw-bold mt-4">
+                    Manage Students.
+                    <br>
+                    Control <span class="text-primary">Academic Operations.</span>
+                </h1>
+
+                <p class="lead text-secondary mt-4">
+                    A Django-powered student management platform designed to organize
+                    students, teachers, departments, courses, attendance and academic
+                    results through a structured backend architecture.
+                </p>
+
+                <div class="d-flex flex-wrap gap-2 mt-4">
+                    <a href="#application-structure" class="btn btn-primary btn-lg">
+                        Explore System
+                        <i class="bi bi-arrow-down ms-2"></i>
+                    </a>
+                    <a href="#core-features" class="btn btn-outline-dark btn-lg">
+                        View Features
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="dashboard-preview bg-white rounded-4 shadow p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <small class="text-secondary">Dashboard Overview</small>
+                            <h4 class="fw-semibold mb-0">Academic Control Center</h4>
+                        </div>
+                        <span class="badge bg-success-subtle text-success">
+                            <i class="bi bi-circle-fill me-1 small"></i>
+                            Online
+                        </span>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="stat-card bg-light rounded-3 p-3 h-100">
+                                <i class="bi bi-people-fill text-primary fs-3"></i>
+                                <h3 class="fw-bold mt-2 mb-0">1,240</h3>
+                                <small class="text-secondary">Student Records</small>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="stat-card bg-light rounded-3 p-3 h-100">
+                                <i class="bi bi-person-badge text-primary fs-3"></i>
+                                <h3 class="fw-bold mt-2 mb-0">86</h3>
+                                <small class="text-secondary">Teacher Profiles</small>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="stat-card bg-light rounded-3 p-3 h-100">
+                                <i class="bi bi-book text-primary fs-3"></i>
+                                <h3 class="fw-bold mt-2 mb-0">42</h3>
+                                <small class="text-secondary">Active Courses</small>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="stat-card bg-light rounded-3 p-3 h-100">
+                                <i class="bi bi-calendar-check text-primary fs-3"></i>
+                                <h3 class="fw-bold mt-2 mb-0">98%</h3>
+                                <small class="text-secondary">Attendance Rate</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <h6 class="fw-semibold mb-3">Backend Architecture</h6>
+
+                    <div class="small text-secondary">
+                        <p class="mb-2">
+                            <i class="bi bi-person-lock text-primary me-2"></i>
+                            Authentication & Permissions
+                        </p>
+                        <p class="mb-2">
+                            <i class="bi bi-diagram-3 text-primary me-2"></i>
+                            Models & Relationships
+                        </p>
+                        <p class="mb-2">
+                            <i class="bi bi-pencil-square text-primary me-2"></i>
+                            CRUD Operations
+                        </p>
+                        <p class="mb-0">
+                            <i class="bi bi-database text-primary me-2"></i>
+                            Academic Data Management
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="application-structure" class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="text-primary fw-semibold">APPLICATION ARCHITECTURE</span>
+            <h2 class="fw-bold mt-2">Django Application Structure</h2>
+            <p class="text-secondary mb-0">
+                Each application has a clear responsibility within the system.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-sm-6 col-lg-3">
+                <div class="module-card bg-white rounded-4 shadow-sm p-4 h-100">
+                    <i class="bi bi-person-lock text-primary fs-2"></i>
+                    <h5 class="fw-semibold mt-3">Accounts</h5>
+                    <p class="text-secondary mb-0">
+                        Users, authentication, roles and permissions.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-lg-3">
+                <div class="module-card bg-white rounded-4 shadow-sm p-4 h-100">
+                    <i class="bi bi-people-fill text-primary fs-2"></i>
+                    <h5 class="fw-semibold mt-3">Students</h5>
+                    <p class="text-secondary mb-0">
+                        Student profiles, records and academic information.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-lg-3">
+                <div class="module-card bg-white rounded-4 shadow-sm p-4 h-100">
+                    <i class="bi bi-person-badge text-primary fs-2"></i>
+                    <h5 class="fw-semibold mt-3">Teachers</h5>
+                    <p class="text-secondary mb-0">
+                        Teacher profiles, assignments and responsibilities.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-lg-3">
+                <div class="module-card bg-white rounded-4 shadow-sm p-4 h-100">
+                    <i class="bi bi-diagram-3 text-primary fs-2"></i>
+                    <h5 class="fw-semibold mt-3">Academics</h5>
+                    <p class="text-secondary mb-0">
+                        Departments, courses, enrollment, semesters, attendance and results.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="core-features" class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="text-primary fw-semibold">ACADEMIC MANAGEMENT</span>
+            <h2 class="fw-bold mt-2">Core Features</h2>
+            <p class="text-secondary mb-0">
+                The main workflows supported by the academic system.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card border rounded-4 p-4 h-100">
+                    <i class="bi bi-building text-primary fs-2"></i>
+                    <h5 class="fw-semibold mt-3">Departments</h5>
+                    <p class="text-secondary mb-0">
+                        Organize courses and academic activities by department.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card border rounded-4 p-4 h-100">
+                    <i class="bi bi-journal-bookmark text-primary fs-2"></i>
+                    <h5 class="fw-semibold mt-3">Courses</h5>
+                    <p class="text-secondary mb-0">
+                        Create and manage courses offered by the school.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card border rounded-4 p-4 h-100">
+                    <i class="bi bi-person-check text-primary fs-2"></i>
+                    <h5 class="fw-semibold mt-3">Enrollment</h5>
+                    <p class="text-secondary mb-0">
+                        Connect students to courses and academic sessions.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card border rounded-4 p-4 h-100">
+                    <i class="bi bi-calendar-check text-primary fs-2"></i>
+                    <h5 class="fw-semibold mt-3">Attendance</h5>
+                    <p class="text-secondary mb-0">
+                        Record and monitor student attendance efficiently.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card border rounded-4 p-4 h-100">
+                    <i class="bi bi-award text-primary fs-2"></i>
+                    <h5 class="fw-semibold mt-3">Results</h5>
+                    <p class="text-secondary mb-0">
+                        Store grades and track academic performance.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card border rounded-4 p-4 h-100">
+                    <i class="bi bi-calendar3 text-primary fs-2"></i>
+                    <h5 class="fw-semibold mt-3">Sessions & Semesters</h5>
+                    <p class="text-secondary mb-0">
+                        Structure academic activities by session and semester.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
