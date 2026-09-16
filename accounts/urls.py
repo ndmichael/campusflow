@@ -8,7 +8,11 @@ from accounts.views import (
     teacher_attendance,
     teacher_results,
     teacher_profile,
+
     admin_dashboard,
+    admin_students,
+
+
     student_courses,
     student_attendance,
     student_results,
@@ -22,6 +26,12 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name="logout"),
     path('dashboard/', dashboard, name="dashboard"),
     path('dashboard/admin/', admin_dashboard, name="admin_dashboard"),
+    path(
+        "dashboard/admin/students/",
+        admin_students,
+        name="admin_students",
+    ),
+
     path('dashboard/teacher/', teacher_dashboard, name="teacher_dashboard"),
     path(
         "dashboard/teacher/courses/",

@@ -12,6 +12,8 @@ from datetime import datetime
 from django.contrib import messages
 from django.utils import timezone
 
+from django.db.models import Count
+
 
 class UserLoginView(LoginView):
     template_name = "accounts/login.html"
@@ -32,6 +34,33 @@ def dashboard(request):
 
     raise PermissionDenied
 
+
+@login_required
+def admin_students(request):
+    if not (request.user.is_superuser or request.user.role == "admin"):
+        raise PermissionDenied
+
+    students = (
+        Student.objects
+        .select_related("user")
+        .annotate(course_count=Count("enrollments", distinct=True))
+        .order_by(
+            "user__last_name",
+            "user__first_name",
+        )
+    )
+
+    context = {
+        "title": "Students",
+        "students": students,
+        "total_students": students.count(),
+    }
+
+    return render(
+        request,
+        "accounts/dashboard/admin/students.html",
+        context,
+    )
 
 @login_required
 def student_dashboard(request):

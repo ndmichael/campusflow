@@ -37,7 +37,7 @@ Administration
     Management
 </div>
 
-<a href="#" class="sidebar-link">
+<a href="{% url 'admin_students' %}" class="sidebar-link">
     <i class="bi bi-people-fill"></i>
     <span>Students</span>
 </a>
@@ -393,6 +393,12 @@ Administration
                 </div>
 
                 <i class="bi bi-people text-primary"></i>
+                <a
+                    href="{% url 'admin_students' %}"
+                    class="small text-primary text-decoration-none"
+                >
+                    View all
+                </a>
 
             </div>
 
