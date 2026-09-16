@@ -8,6 +8,10 @@ from academics.models import Attendance, Enrollment, Result, Course, Department
 from students.models import Student
 from teacher.models import Teacher
 
+from datetime import datetime
+from django.contrib import messages
+from django.utils import timezone
+
 
 class UserLoginView(LoginView):
     template_name = "accounts/login.html"
@@ -322,6 +326,269 @@ def teacher_students(request):
     return render(
         request,
         "accounts/dashboard/teacher/students.html",
+        context,
+    )
+
+
+@login_required
+def teacher_attendance(request):
+    if request.user.role != "teacher":
+        raise PermissionDenied
+
+    teacher = request.user.teacher_profile
+
+    courses = (
+        Course.objects
+        .filter(teacher=teacher)
+        .select_related("department")
+        .order_by("code")
+    )
+
+    course_id = request.POST.get("course") or request.GET.get("course")
+    selected_date = (
+        request.POST.get("date")
+        or request.GET.get("date")
+        or timezone.localdate().isoformat()
+    )
+
+    selected_course = None
+    students = []
+    attendance_map = {}
+
+    if course_id:
+        selected_course = courses.filter(id=course_id).first()
+
+    if selected_course:
+        enrollments = (
+            Enrollment.objects
+            .filter(course=selected_course)
+            .select_related("student", "student__user")
+            .order_by(
+                "student__user__last_name",
+                "student__user__first_name",
+            )
+        )
+
+        attendance_records = Attendance.objects.filter(
+            course=selected_course,
+            date=selected_date,
+        )
+
+        attendance_map = {
+            record.student_id: record.status
+            for record in attendance_records
+        }
+
+        students = [
+            {
+                "student": enrollment.student,
+                "status": attendance_map.get(
+                    enrollment.student.id,
+                    "present",
+                ),
+            }
+            for enrollment in enrollments
+        ]
+
+    if request.method == "POST" and selected_course:
+
+        try:
+            attendance_date = datetime.strptime(
+                selected_date,
+                "%Y-%m-%d",
+            ).date()
+        except ValueError:
+            messages.error(request, "Invalid attendance date.")
+            return redirect(
+                f"{request.path}?course={selected_course.id}"
+            )
+
+        for item in students:
+            student = item["student"]
+
+            status = request.POST.get(
+                f"status_{student.id}",
+                "present",
+            )
+
+            if status not in {
+                "present",
+                "late",
+                "absent",
+            }:
+                status = "present"
+
+            Attendance.objects.update_or_create(
+                student=student,
+                course=selected_course,
+                date=attendance_date,
+                defaults={
+                    "status": status,
+                },
+            )
+
+        messages.success(
+            request,
+            f"Attendance saved for {selected_course.code}.",
+        )
+
+        return redirect(
+            f"{request.path}?course={selected_course.id}&date={selected_date}"
+        )
+
+    context = {
+        "title": "Attendance",
+        "teacher": teacher,
+        "courses": courses,
+        "selected_course": selected_course,
+        "selected_date": selected_date,
+        "students": students,
+    }
+
+    return render(
+        request,
+        "accounts/dashboard/teacher/attendance.html",
+        context,
+    )
+
+
+@login_required
+def teacher_results(request):
+    if request.user.role != "teacher":
+        raise PermissionDenied
+
+    teacher = request.user.teacher_profile
+
+    courses = (
+        Course.objects
+        .filter(teacher=teacher)
+        .select_related("department")
+        .order_by("code")
+    )
+
+    course_id = request.POST.get("course") or request.GET.get("course")
+
+    selected_course = None
+    students = []
+
+    if course_id:
+        selected_course = courses.filter(id=course_id).first()
+
+    if selected_course:
+        enrollments = (
+            Enrollment.objects
+            .filter(course=selected_course)
+            .select_related("student", "student__user")
+            .order_by(
+                "student__user__last_name",
+                "student__user__first_name",
+            )
+        )
+
+        student_ids = [
+            enrollment.student.id
+            for enrollment in enrollments
+        ]
+
+        results = (
+            Result.objects
+            .filter(
+                course=selected_course,
+                student_id__in=student_ids,
+            )
+            .order_by("-id")
+        )
+
+        result_map = {}
+
+        for result in results:
+            if result.student_id not in result_map:
+                result_map[result.student_id] = result
+
+        students = [
+            {
+                "student": enrollment.student,
+                "result": result_map.get(
+                    enrollment.student.id
+                ),
+            }
+            for enrollment in enrollments
+        ]
+
+    if request.method == "POST" and selected_course:
+
+        for item in students:
+            student = item["student"]
+
+            raw_score = request.POST.get(
+                f"score_{student.id}"
+            )
+
+            if raw_score in (None, ""):
+                continue
+
+            try:
+                score = float(raw_score)
+            except (TypeError, ValueError):
+                messages.error(
+                    request,
+                    "Scores must be valid numbers.",
+                )
+                return redirect(
+                    f"{request.path}?course={selected_course.id}"
+                )
+
+            if score < 0 or score > 100:
+                messages.error(
+                    request,
+                    "Scores must be between 0 and 100.",
+                )
+                return redirect(
+                    f"{request.path}?course={selected_course.id}"
+                )
+
+            if score >= 70:
+                grade = "A"
+            elif score >= 60:
+                grade = "B"
+            elif score >= 50:
+                grade = "C"
+            elif score >= 45:
+                grade = "D"
+            elif score >= 40:
+                grade = "E"
+            else:
+                grade = "F"
+
+            Result.objects.update_or_create(
+                student=student,
+                course=selected_course,
+                defaults={
+                    "score": score,
+                    "grade": grade,
+                },
+            )
+
+        messages.success(
+            request,
+            f"Results saved for {selected_course.code}.",
+        )
+
+        return redirect(
+            f"{request.path}?course={selected_course.id}"
+        )
+
+    context = {
+        "title": "Results",
+        "teacher": teacher,
+        "courses": courses,
+        "selected_course": selected_course,
+        "students": students,
+    }
+
+    return render(
+        request,
+        "accounts/dashboard/teacher/results.html",
         context,
     )
 

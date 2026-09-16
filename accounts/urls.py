@@ -5,6 +5,8 @@ from accounts.views import (
     teacher_courses,
     teacher_students,
     student_dashboard,
+    teacher_attendance,
+    teacher_results,
     admin_dashboard,
     student_courses,
     student_attendance,
@@ -31,6 +33,18 @@ urlpatterns = [
         teacher_students,
         name="teacher_students",
     ),
+    path(
+        "dashboard/teacher/attendance/",
+        teacher_attendance,
+        name="teacher_attendance",
+    ),
+
+    path(
+        "dashboard/teacher/results/",
+        teacher_results,
+        name="teacher_results",
+    ),
+        
     path('dashboard/student/', student_dashboard, name="student_dashboard"),
     path(
         "dashboard/student/courses/",
