@@ -141,6 +141,62 @@ def admin_departments(request):
 
 
 @login_required
+def admin_attendance(request):
+    if not (request.user.is_superuser or request.user.role == "admin"):
+        raise PermissionDenied
+
+    attendance_records = (
+        Attendance.objects
+        .select_related(
+            "student__user",
+            "course",
+            "course__department",
+        )
+        .order_by("-date", "course__code")
+    )
+
+    context = {
+        "title": "Attendance",
+        "attendance_records": attendance_records,
+        "total_records": attendance_records.count(),
+    }
+
+    return render(
+        request,
+        "accounts/dashboard/admin/attendance.html",
+        context,
+    )
+
+
+@login_required
+def admin_results(request):
+    if not (request.user.is_superuser or request.user.role == "admin"):
+        raise PermissionDenied
+
+    results = (
+        Result.objects
+        .select_related(
+            "student__user",
+            "course",
+            "course__department",
+        )
+        .order_by("-id")
+    )
+
+    context = {
+        "title": "Results",
+        "results": results,
+        "total_results": results.count(),
+    }
+
+    return render(
+        request,
+        "accounts/dashboard/admin/results.html",
+        context,
+    )
+
+
+@login_required
 def student_dashboard(request):
     if request.user.role != "student":
         raise PermissionDenied
