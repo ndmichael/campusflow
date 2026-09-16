@@ -37,22 +37,22 @@ Teacher Dashboard
     Teaching
 </div>
 
-<a href="#" class="sidebar-link">
+<a href="{% url 'teacher_courses' %}" class="sidebar-link">
     <i class="bi bi-book-fill"></i>
     <span>My Courses</span>
 </a>
 
-<a href="#" class="sidebar-link">
+<a href="{% url 'teacher_students' %}" class="sidebar-link">
     <i class="bi bi-people-fill"></i>
     <span>Students</span>
 </a>
 
-<a href="#" class="sidebar-link">
+<a href="{% url 'teacher_attendance' %}" class="sidebar-link">
     <i class="bi bi-calendar-check-fill"></i>
     <span>Attendance</span>
 </a>
 
-<a href="#" class="sidebar-link">
+<a href="{% url 'teacher_results' %}" class="sidebar-link">
     <i class="bi bi-award-fill"></i>
     <span>Results</span>
 </a>
@@ -295,7 +295,10 @@ Teacher Dashboard
             </div>
 
 
-            <a href="#" class="teacher-action">
+            <a
+                href="{% url 'teacher_attendance' %}"
+                class="teacher-action"
+            >
 
                 <div class="teacher-action-icon">
                     <i class="bi bi-calendar-plus"></i>
@@ -309,7 +312,10 @@ Teacher Dashboard
             </a>
 
 
-            <a href="#" class="teacher-action">
+            <a
+                href="{% url 'teacher_results' %}"
+                class="teacher-action"
+            >
 
                 <div class="teacher-action-icon">
                     <i class="bi bi-pencil-square"></i>
@@ -323,7 +329,10 @@ Teacher Dashboard
             </a>
 
 
-            <a href="#" class="teacher-action">
+            <a
+                href="{% url 'teacher_students' %}"
+                class="teacher-action"
+            >
 
                 <div class="teacher-action-icon">
                     <i class="bi bi-people"></i>

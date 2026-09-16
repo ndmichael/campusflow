@@ -1,0 +1,298 @@
+{% extends "accounts/dashboard/base.html" %}
+{% load static %}
+
+{% block title %}
+    Results | APTECHSys
+{% endblock %}
+
+{% block body_class %}
+    teacher-dashboard
+{% endblock %}
+
+{% block extra_css %}
+    <link
+        rel="stylesheet"
+        href="{% static 'accounts/css/teacher.css' %}"
+    >
+{% endblock %}
+
+{% block topbar_title %}
+    Results
+{% endblock %}
+
+{% block sidebar %}
+
+    <div class="nav-section-title">
+        Overview
+    </div>
+
+    <a
+        href="{% url 'teacher_dashboard' %}"
+        class="sidebar-link"
+    >
+        <i class="bi bi-grid-1x2-fill"></i>
+        <span>Dashboard</span>
+    </a>
+
+    <div class="nav-section-title mt-4">
+        Teaching
+    </div>
+
+    <a
+        href="{% url 'teacher_courses' %}"
+        class="sidebar-link"
+    >
+        <i class="bi bi-book-fill"></i>
+        <span>My Courses</span>
+    </a>
+
+    <a
+        href="{% url 'teacher_students' %}"
+        class="sidebar-link"
+    >
+        <i class="bi bi-people-fill"></i>
+        <span>Students</span>
+    </a>
+
+    <a
+        href="{% url 'teacher_attendance' %}"
+        class="sidebar-link"
+    >
+        <i class="bi bi-calendar-check-fill"></i>
+        <span>Attendance</span>
+    </a>
+
+    <a
+        href="{% url 'teacher_results' %}"
+        class="sidebar-link active"
+    >
+        <i class="bi bi-award-fill"></i>
+        <span>Results</span>
+    </a>
+
+    <div class="nav-section-title mt-4">
+        Account
+    </div>
+
+    <a href="#" class="sidebar-link">
+        <i class="bi bi-person-fill"></i>
+        <span>My Profile</span>
+    </a>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+
+        <div>
+            <h1 class="fw-bold mb-1">
+                Results
+            </h1>
+
+            <p class="text-muted mb-0">
+                Enter and update student scores.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="teacher-panel">
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            <div class="row g-3 align-items-end mb-4">
+
+                <div class="col-12 col-md-8">
+
+                    <label
+                        for="course"
+                        class="form-label small fw-semibold"
+                    >
+                        Course
+                    </label>
+
+                    <select
+                        id="course"
+                        name="course"
+                        class="form-select"
+                        onchange="this.form.submit()"
+                    >
+
+                        <option value="">
+                            Select a course
+                        </option>
+
+                        {% for course in courses %}
+
+                            <option
+                                value="{{ course.id }}"
+                                {% if selected_course and selected_course.id == course.id %}selected{% endif %}
+                            >
+                                {{ course.code }} — {{ course.name }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            {% if selected_course %}
+
+                <div class="teacher-panel-heading">
+
+                    <div>
+                        <h5>
+                            {{ selected_course.code }} — Results
+                        </h5>
+
+                        <p>
+                            Enter scores from 0 to 100.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="table-responsive">
+
+                    <table class="table align-middle teacher-mark-table mb-0">
+
+                        <thead>
+
+                            <tr>
+                                <th>Student</th>
+                                <th>Student ID</th>
+                                <th>Current Grade</th>
+                                <th class="text-end">Score</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for item in students %}
+
+                                <tr>
+
+                                    <td>
+
+                                        <div class="d-flex align-items-center gap-3">
+
+                                            <div class="teacher-student-avatar">
+
+                                                {% if item.student.user.first_name %}
+                                                    {{ item.student.user.first_name|first|upper }}
+                                                {% else %}
+                                                    {{ item.student.user.username|first|upper }}
+                                                {% endif %}
+
+                                            </div>
+
+                                            <div>
+                                                <strong>
+                                                    {{ item.student.user.get_full_name|default:item.student.user.username }}
+                                                </strong>
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+                                    <td>
+                                        {{ item.student.student_id }}
+                                    </td>
+
+                                    <td>
+
+                                        {% if item.result %}
+                                            <span class="teacher-grade">
+                                                {{ item.result.grade }}
+                                            </span>
+                                        {% else %}
+                                            <span class="text-muted small">
+                                                Not recorded
+                                            </span>
+                                        {% endif %}
+
+                                    </td>
+
+                                    <td class="text-end">
+
+                                        <input
+                                            type="number"
+                                            name="score_{{ item.student.id }}"
+                                            class="form-control teacher-mark-input ms-auto"
+                                            min="0"
+                                            max="100"
+                                            step="0.01"
+                                            value="{% if item.result %}{{ item.result.score }}{% endif %}"
+                                            placeholder="Score"
+                                        >
+
+                                    </td>
+
+                                </tr>
+
+                            {% empty %}
+
+                                <tr>
+                                    <td
+                                        colspan="4"
+                                        class="text-center py-5 text-muted"
+                                    >
+                                        No students are enrolled in this course.
+                                    </td>
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                {% if students %}
+
+                    <div class="d-flex justify-content-end mt-4">
+
+                        <button
+                            type="submit"
+                            class="btn btn-success px-4"
+                        >
+                            <i class="bi bi-save me-2"></i>
+                            Save Results
+                        </button>
+
+                    </div>
+
+                {% endif %}
+
+            {% else %}
+
+                <div class="text-center py-5 text-muted">
+
+                    <i class="bi bi-award display-5"></i>
+
+                    <p class="mt-3 mb-0">
+                        Select a course to enter results.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </form>
+
+    </div>
+
+{% endblock %}
