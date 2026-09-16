@@ -91,7 +91,53 @@ def admin_teachers(request):
     )
 
 
+@login_required
+def admin_courses(request):
+    if not (request.user.is_superuser or request.user.role == "admin"):
+        raise PermissionDenied
 
+    courses = (
+        Course.objects
+        .select_related("department", "teacher__user")
+        .annotate(student_count=Count("enrollments", distinct=True))
+        .order_by("code")
+    )
+
+    context = {
+        "title": "Courses",
+        "courses": courses,
+        "total_courses": courses.count(),
+    }
+
+    return render(
+        request,
+        "accounts/dashboard/admin/courses.html",
+        context,
+    )
+
+
+@login_required
+def admin_departments(request):
+    if not (request.user.is_superuser or request.user.role == "admin"):
+        raise PermissionDenied
+
+    departments = (
+        Department.objects
+        .annotate(course_count=Count("courses", distinct=True))
+        .order_by("name")
+    )
+
+    context = {
+        "title": "Departments",
+        "departments": departments,
+        "total_departments": departments.count(),
+    }
+
+    return render(
+        request,
+        "accounts/dashboard/admin/departments.html",
+        context,
+    )
 
 
 @login_required

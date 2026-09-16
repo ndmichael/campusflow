@@ -50,12 +50,15 @@ Administration
     <span>Teachers</span>
 </a>
 
-<a href="#" class="sidebar-link">
+<a
+    href="{% url 'admin_courses' %}"
+    class="sidebar-link"
+> 
     <i class="bi bi-book-fill"></i>
     <span>Courses</span>
 </a>
 
-<a href="#" class="sidebar-link">
+<a href="{% url 'admin_departments' %}" class="sidebar-link">
     <i class="bi bi-building"></i>
     <span>Departments</span>
 </a>
@@ -615,6 +618,13 @@ Administration
                     <p>
                         Latest courses added to the system
                     </p>
+
+                    <a
+                        href="{% url 'admin_courses' %}"
+                        class="small text-primary text-decoration-none"
+                    >
+                        View all
+                    </a>
                 </div>
 
             </div>
