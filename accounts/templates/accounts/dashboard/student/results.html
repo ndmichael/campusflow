@@ -20,65 +20,6 @@ student-dashboard
 Results
 {% endblock %}
 
-{% block sidebar %}
-
-<div class="nav-section-title">
-    Overview
-</div>
-
-<a
-    href="{% url 'student_dashboard' %}"
-    class="sidebar-link"
->
-    <i class="bi bi-grid-1x2-fill"></i>
-    <span>Dashboard</span>
-</a>
-
-
-<div class="nav-section-title mt-4">
-    Academics
-</div>
-
-<a
-    href="{% url 'student_courses' %}"
-    class="sidebar-link"
->
-    <i class="bi bi-book"></i>
-    <span>My Courses</span>
-</a>
-
-<a
-    href="{% url 'student_attendance' %}"
-    class="sidebar-link"
->
-    <i class="bi bi-calendar-check"></i>
-    <span>Attendance</span>
-</a>
-
-<a
-    href="{% url 'student_results' %}"
-    class="sidebar-link active"
->
-    <i class="bi bi-bar-chart"></i>
-    <span>Results</span>
-</a>
-
-
-<div class="nav-section-title mt-4">
-    Account
-</div>
-
-<a
-    href="{% url 'student_profile' %}"
-    class="sidebar-link"
->
-    <i class="bi bi-person"></i>
-    <span>My Profile</span>
-</a>
-
-
-{% endblock %}
-
 {% block content %}
 
 <!-- PAGE HEADER -->
