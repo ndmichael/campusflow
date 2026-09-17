@@ -197,6 +197,23 @@ def admin_results(request):
 
 
 @login_required
+def admin_profile(request):
+    if not (request.user.is_superuser or request.user.role == "admin"):
+        raise PermissionDenied
+
+    context = {
+        "title": "My Profile",
+        "user_profile": request.user,
+    }
+
+    return render(
+        request,
+        "accounts/dashboard/admin/profile.html",
+        context,
+    )
+
+
+@login_required
 def student_dashboard(request):
     if request.user.role != "student":
         raise PermissionDenied
