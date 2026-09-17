@@ -16,6 +16,7 @@ from accounts.views import (
     admin_departments,
     admin_attendance,
     admin_results,
+    admin_profile,
 
 
     student_courses,
@@ -62,6 +63,11 @@ urlpatterns = [
         "dashboard/admin/results/",
         admin_results,
         name="admin_results",
+    ),
+    path(
+        "dashboard/admin/profile/",
+        admin_profile,
+        name="admin_profile",
     ),
         
 
