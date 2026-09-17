@@ -1,0 +1,130 @@
+<div class="nav-section-title">
+    Overview
+</div>
+
+
+<a
+    href="{% url 'admin_dashboard' %}"
+    class="sidebar-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}"
+>
+
+    <i class="bi bi-grid-1x2-fill"></i>
+
+    <span>
+        Dashboard
+    </span>
+
+</a>
+
+
+<div class="nav-section-title mt-4">
+    Management
+</div>
+
+
+<a
+    href="{% url 'admin_students' %}"
+    class="sidebar-link {% if request.resolver_match.url_name == 'admin_students' %}active{% endif %}"
+>
+
+    <i class="bi bi-people-fill"></i>
+
+    <span>
+        Students
+    </span>
+
+</a>
+
+
+<a
+    href="{% url 'admin_teachers' %}"
+    class="sidebar-link {% if request.resolver_match.url_name == 'admin_teachers' %}active{% endif %}"
+>
+
+    <i class="bi bi-person-badge-fill"></i>
+
+    <span>
+        Teachers
+    </span>
+
+</a>
+
+
+<a
+    href="{% url 'admin_courses' %}"
+    class="sidebar-link {% if request.resolver_match.url_name == 'admin_courses' %}active{% endif %}"
+>
+
+    <i class="bi bi-book-fill"></i>
+
+    <span>
+        Courses
+    </span>
+
+</a>
+
+
+<a
+    href="{% url 'admin_departments' %}"
+    class="sidebar-link {% if request.resolver_match.url_name == 'admin_departments' %}active{% endif %}"
+>
+
+    <i class="bi bi-building"></i>
+
+    <span>
+        Departments
+    </span>
+
+</a>
+
+
+<div class="nav-section-title mt-4">
+    Academics
+</div>
+
+
+<a
+    href="{% url 'admin_attendance' %}"
+    class="sidebar-link {% if request.resolver_match.url_name == 'admin_attendance' %}active{% endif %}"
+>
+
+    <i class="bi bi-calendar-check-fill"></i>
+
+    <span>
+        Attendance
+    </span>
+
+</a>
+
+
+<a
+    href="{% url 'admin_results' %}"
+    class="sidebar-link {% if request.resolver_match.url_name == 'admin_results' %}active{% endif %}"
+>
+
+    <i class="bi bi-award-fill"></i>
+
+    <span>
+        Results
+    </span>
+
+</a>
+
+
+<div class="nav-section-title mt-4">
+    Account
+</div>
+
+
+<a
+    href="{% url 'admin_profile' %}"
+    class="sidebar-link {% if request.resolver_match.url_name == 'admin_profile' %}active{% endif %}"
+>
+
+    <i class="bi bi-person-fill"></i>
+
+    <span>
+        My Profile
+    </span>
+
+</a>

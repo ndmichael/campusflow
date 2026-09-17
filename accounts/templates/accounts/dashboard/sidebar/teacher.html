@@ -1,0 +1,97 @@
+<div class="nav-section-title">
+    Overview
+</div>
+
+
+<a
+    href="{% url 'teacher_dashboard' %}"
+    class="sidebar-link {% if request.resolver_match.url_name == 'teacher_dashboard' %}active{% endif %}"
+>
+
+    <i class="bi bi-grid-1x2-fill"></i>
+
+    <span>
+        Dashboard
+    </span>
+
+</a>
+
+
+<div class="nav-section-title mt-4">
+    Teaching
+</div>
+
+
+<a
+    href="{% url 'teacher_courses' %}"
+    class="sidebar-link {% if request.resolver_match.url_name == 'teacher_courses' %}active{% endif %}"
+>
+
+    <i class="bi bi-book-fill"></i>
+
+    <span>
+        My Courses
+    </span>
+
+</a>
+
+
+<a
+    href="{% url 'teacher_students' %}"
+    class="sidebar-link {% if request.resolver_match.url_name == 'teacher_students' %}active{% endif %}"
+>
+
+    <i class="bi bi-people-fill"></i>
+
+    <span>
+        Students
+    </span>
+
+</a>
+
+
+<a
+    href="{% url 'teacher_attendance' %}"
+    class="sidebar-link {% if request.resolver_match.url_name == 'teacher_attendance' %}active{% endif %}"
+>
+
+    <i class="bi bi-calendar-check-fill"></i>
+
+    <span>
+        Attendance
+    </span>
+
+</a>
+
+
+<a
+    href="{% url 'teacher_results' %}"
+    class="sidebar-link {% if request.resolver_match.url_name == 'teacher_results' %}active{% endif %}"
+>
+
+    <i class="bi bi-award-fill"></i>
+
+    <span>
+        Results
+    </span>
+
+</a>
+
+
+<div class="nav-section-title mt-4">
+    Account
+</div>
+
+
+<a
+    href="{% url 'teacher_profile' %}"
+    class="sidebar-link {% if request.resolver_match.url_name == 'teacher_profile' %}active{% endif %}"
+>
+
+    <i class="bi bi-person-fill"></i>
+
+    <span>
+        My Profile
+    </span>
+
+</a>
