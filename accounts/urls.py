@@ -53,7 +53,8 @@ urlpatterns = [
         admin_departments,
         name="admin_departments",
     ),
-        path(
+    
+    path(
         "dashboard/admin/attendance/",
         admin_attendance,
         name="admin_attendance",

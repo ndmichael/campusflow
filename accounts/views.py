@@ -13,6 +13,7 @@ from django.contrib import messages
 from django.utils import timezone
 
 from django.db.models import Count
+from django.core.paginator import Paginator
 
 
 class UserLoginView(LoginView):
@@ -142,6 +143,7 @@ def admin_departments(request):
 
 @login_required
 def admin_attendance(request):
+
     if not (request.user.is_superuser or request.user.role == "admin"):
         raise PermissionDenied
 
@@ -155,10 +157,16 @@ def admin_attendance(request):
         .order_by("-date", "course__code")
     )
 
+    paginator = Paginator(attendance_records, 50)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     context = {
         "title": "Attendance",
-        "attendance_records": attendance_records,
-        "total_records": attendance_records.count(),
+        "attendance_records": page_obj.object_list,
+        "page_obj": page_obj,
+        "paginator": paginator,
+        "total_records": paginator.count,
     }
 
     return render(
@@ -170,6 +178,7 @@ def admin_attendance(request):
 
 @login_required
 def admin_results(request):
+
     if not (request.user.is_superuser or request.user.role == "admin"):
         raise PermissionDenied
 
@@ -183,10 +192,16 @@ def admin_results(request):
         .order_by("-id")
     )
 
+    paginator = Paginator(results, 50)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     context = {
         "title": "Results",
-        "results": results,
-        "total_results": results.count(),
+        "results": page_obj.object_list,
+        "page_obj": page_obj,
+        "paginator": paginator,
+        "total_results": paginator.count,
     }
 
     return render(

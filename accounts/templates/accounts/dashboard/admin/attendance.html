@@ -1,4 +1,5 @@
 {% extends "accounts/dashboard/base.html" %}
+
 {% load static %}
 
 {% block title %}
@@ -22,52 +23,47 @@
 
 {% block content %}
 
-    <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
-
+    <div class="attendance-page-header">
         <div>
-            <h1 class="fw-bold mb-1">
+            <span class="attendance-eyebrow">Academic Records</span>
+
+            <h1 class="attendance-page-title">
                 Attendance
             </h1>
 
-            <p class="text-muted mb-0">
+            <p class="attendance-page-description">
                 Monitor attendance records across the institution.
             </p>
         </div>
 
-        <div class="text-muted small">
-            {{ total_records }} record{{ total_records|pluralize }}
+        <div class="attendance-total">
+            <strong>{{ total_records }}</strong>
+            record{{ total_records|pluralize }}
         </div>
-
     </div>
 
 
-    <div class="admin-panel">
+    <div class="admin-panel attendance-panel">
 
-        <div class="admin-panel-heading">
-
+        <div class="admin-panel-heading attendance-panel-heading">
             <div>
-                <h5>
-                    Attendance Records
-                </h5>
-
+                <h5>Attendance Records</h5>
                 <p>
                     Latest attendance activity across all courses.
                 </p>
             </div>
-
         </div>
 
 
         <div class="table-responsive">
-
-            <table class="table align-middle mb-0 admin-data-table">
+            <table class="table align-middle mb-0 admin-data-table attendance-table">
 
                 <thead>
                     <tr>
                         <th>Student</th>
                         <th>Course</th>
                         <th>Date</th>
-                        <th>Status</th>
+                        <th class="text-end">Status</th>
                     </tr>
                 </thead>
 
@@ -78,8 +74,7 @@
                         <tr>
 
                             <td>
-
-                                <div class="d-flex align-items-center gap-2">
+                                <div class="d-flex align-items-center gap-3">
 
                                     <div class="admin-avatar">
                                         {% if record.student.user.first_name %}
@@ -100,39 +95,46 @@
                                     </div>
 
                                 </div>
-
                             </td>
 
+
                             <td>
-                                <strong>
-                                    {{ record.course.code }}
-                                </strong>
-                                <div class="text-muted small">
-                                    {{ record.course.name }}
+                                <div class="attendance-course">
+                                    <strong>
+                                        {{ record.course.code }}
+                                    </strong>
+
+                                    <span>
+                                        {{ record.course.name }}
+                                    </span>
                                 </div>
                             </td>
 
-                            <td>
-                                {{ record.date|date:"M d, Y" }}
-                            </td>
 
                             <td>
+                                <span class="attendance-date">
+                                    {{ record.date|date:"M d, Y" }}
+                                </span>
+                            </td>
+
+
+                            <td class="text-end">
 
                                 {% if record.status == "present" %}
 
-                                    <span class="badge text-bg-success">
+                                    <span class="attendance-status attendance-status-present">
                                         Present
                                     </span>
 
                                 {% elif record.status == "late" %}
 
-                                    <span class="badge text-bg-warning">
+                                    <span class="attendance-status attendance-status-late">
                                         Late
                                     </span>
 
                                 {% else %}
 
-                                    <span class="badge text-bg-danger">
+                                    <span class="attendance-status attendance-status-absent">
                                         Absent
                                     </span>
 
@@ -145,11 +147,13 @@
                     {% empty %}
 
                         <tr>
-                            <td
-                                colspan="4"
-                                class="text-center py-5 text-muted"
-                            >
-                                No attendance records have been recorded yet.
+                            <td colspan="4" class="attendance-empty">
+                                <div>
+                                    <strong>No attendance records</strong>
+                                    <span>
+                                        No attendance records have been recorded yet.
+                                    </span>
+                                </div>
                             </td>
                         </tr>
 
@@ -158,8 +162,92 @@
                 </tbody>
 
             </table>
-
         </div>
+
+
+        {% if page_obj.paginator.count %}
+
+            <div class="admin-pagination">
+
+                <div class="admin-pagination-info">
+                    Showing
+                    <strong>{{ page_obj.start_index }}</strong>
+                    –
+                    <strong>{{ page_obj.end_index }}</strong>
+                    of
+                    <strong>{{ paginator.count }}</strong>
+                    records
+                </div>
+
+
+                <div class="admin-pagination-controls">
+
+                    {% if page_obj.has_previous %}
+                        <a
+                            href="?page=1"
+                            class="admin-page-button"
+                            aria-label="First page"
+                        >
+                            <i class="bi bi-chevron-double-left"></i>
+                        </a>
+
+                        <a
+                            href="?page={{ page_obj.previous_page_number }}"
+                            class="admine-page-button"
+                            aria-label="Previous page"
+                        >
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+                    {% else %}
+                        <span class="admin-page-button disabled">
+                            <i class="bi bi-chevron-double-left"></i>
+                        </span>
+
+                        <span class="admin-page-button disabled">
+                            <i class="bi bi-chevron-left"></i>
+                        </span>
+                    {% endif %}
+
+
+                    <div class="admin-page-indicator">
+                        <span>Page</span>
+                        <strong>{{ page_obj.number }}</strong>
+                        <span>of</span>
+                        <strong>{{ paginator.num_pages }}</strong>
+                    </div>
+
+
+                    {% if page_obj.has_next %}
+                        <a
+                            href="?page={{ page_obj.next_page_number }}"
+                            class="admin-page-button"
+                            aria-label="Next page"
+                        >
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+
+                        <a
+                            href="?page={{ paginator.num_pages }}"
+                            class="admin-page-button"
+                            aria-label="Last page"
+                        >
+                            <i class="bi bi-chevron-double-right"></i>
+                        </a>
+                    {% else %}
+                        <span class="attendance-page-button disabled">
+                            <i class="bi bi-chevron-right"></i>
+                        </span>
+
+                        <span class="attendance-page-button disabled">
+                            <i class="bi bi-chevron-double-right"></i>
+                        </span>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        {% endif %}
 
     </div>
 

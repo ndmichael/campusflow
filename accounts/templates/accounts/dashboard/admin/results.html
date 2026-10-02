@@ -1,4 +1,5 @@
 {% extends "accounts/dashboard/base.html" %}
+
 {% load static %}
 
 {% block title %}
@@ -20,94 +21,27 @@
     Results
 {% endblock %}
 
-{% block sidebar %}
-
-    <div class="nav-section-title">
-        Overview
-    </div>
-
-    <a
-        href="{% url 'admin_dashboard' %}"
-        class="sidebar-link"
-    >
-        <i class="bi bi-grid-1x2-fill"></i>
-        <span>Dashboard</span>
-    </a>
-
-    <div class="nav-section-title mt-4">
-        Management
-    </div>
-
-    <a
-        href="{% url 'admin_students' %}"
-        class="sidebar-link"
-    >
-        <i class="bi bi-people-fill"></i>
-        <span>Students</span>
-    </a>
-
-    <a
-        href="{% url 'admin_teachers' %}"
-        class="sidebar-link"
-    >
-        <i class="bi bi-person-badge-fill"></i>
-        <span>Teachers</span>
-    </a>
-
-    <a
-        href="{% url 'admin_courses' %}"
-        class="sidebar-link"
-    >
-        <i class="bi bi-book-fill"></i>
-        <span>Courses</span>
-    </a>
-
-    <a
-        href="{% url 'admin_departments' %}"
-        class="sidebar-link"
-    >
-        <i class="bi bi-building"></i>
-        <span>Departments</span>
-    </a>
-
-    <div class="nav-section-title mt-4">
-        Academics
-    </div>
-
-    <a
-        href="{% url 'admin_attendance' %}"
-        class="sidebar-link"
-    >
-        <i class="bi bi-calendar-check-fill"></i>
-        <span>Attendance</span>
-    </a>
-
-    <a
-        href="{% url 'admin_results' %}"
-        class="sidebar-link active"
-    >
-        <i class="bi bi-award-fill"></i>
-        <span>Results</span>
-    </a>
-
-{% endblock %}
-
 {% block content %}
 
-    <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+    <div class="admin-page-header">
 
         <div>
-            <h1 class="fw-bold mb-1">
+            <span class="admin-page-eyebrow">
+                Academic Records
+            </span>
+
+            <h1 class="admin-page-title">
                 Results
             </h1>
 
-            <p class="text-muted mb-0">
+            <p class="admin-page-description">
                 Monitor academic results across the institution.
             </p>
         </div>
 
-        <div class="text-muted small">
-            {{ total_results }} result{{ total_results|pluralize }}
+        <div class="admin-page-total">
+            <strong>{{ total_results }}</strong>
+            result{{ total_results|pluralize }}
         </div>
 
     </div>
@@ -116,17 +50,12 @@
     <div class="admin-panel">
 
         <div class="admin-panel-heading">
-
             <div>
-                <h5>
-                    Academic Results
-                </h5>
-
+                <h5>Academic Results</h5>
                 <p>
                     Latest recorded student scores.
                 </p>
             </div>
-
         </div>
 
 
@@ -135,14 +64,12 @@
             <table class="table align-middle mb-0 admin-data-table">
 
                 <thead>
-
                     <tr>
                         <th>Student</th>
                         <th>Course</th>
                         <th>Score</th>
-                        <th>Grade</th>
+                        <th class="text-end">Grade</th>
                     </tr>
-
                 </thead>
 
                 <tbody>
@@ -152,21 +79,17 @@
                         <tr>
 
                             <td>
-
-                                <div class="d-flex align-items-center gap-2">
+                                <div class="d-flex align-items-center gap-3">
 
                                     <div class="admin-avatar">
-
                                         {% if result.student.user.first_name %}
                                             {{ result.student.user.first_name|first|upper }}
                                         {% else %}
                                             {{ result.student.user.username|first|upper }}
                                         {% endif %}
-
                                     </div>
 
                                     <div class="admin-user-main">
-
                                         <strong>
                                             {{ result.student.user.get_full_name|default:result.student.user.username }}
                                         </strong>
@@ -174,34 +97,35 @@
                                         <span>
                                             {{ result.student.student_id }}
                                         </span>
-
                                     </div>
 
                                 </div>
-
                             </td>
 
+
                             <td>
+                                <div class="admin-course-info">
 
-                                <strong>
-                                    {{ result.course.code }}
-                                </strong>
+                                    <strong>
+                                        {{ result.course.code }}
+                                    </strong>
 
-                                <div class="text-muted small">
-                                    {{ result.course.name }}
+                                    <span>
+                                        {{ result.course.name }}
+                                    </span>
+
                                 </div>
-
                             </td>
 
-                            <td>
 
-                                <strong>
+                            <td>
+                                <strong class="admin-result-score">
                                     {{ result.score }}
                                 </strong>
-
                             </td>
 
-                            <td>
+
+                            <td class="text-end">
 
                                 {% if result.grade %}
 
@@ -224,11 +148,13 @@
                     {% empty %}
 
                         <tr>
-                            <td
-                                colspan="4"
-                                class="text-center py-5 text-muted"
-                            >
-                                No academic results have been recorded yet.
+                            <td colspan="4" class="admin-table-empty">
+                                <div>
+                                    <strong>No academic results</strong>
+                                    <span>
+                                        No academic results have been recorded yet.
+                                    </span>
+                                </div>
                             </td>
                         </tr>
 
@@ -239,6 +165,99 @@
             </table>
 
         </div>
+
+
+        {% if page_obj.paginator.count %}
+
+            <div class="admin-pagination">
+
+                <div class="admin-pagination-info">
+                    Showing
+                    <strong>{{ page_obj.start_index }}</strong>
+                    –
+                    <strong>{{ page_obj.end_index }}</strong>
+                    of
+                    <strong>{{ paginator.count }}</strong>
+                    records
+                </div>
+
+
+                <div class="admin-pagination-controls">
+
+                    {% if page_obj.has_previous %}
+
+                        <a
+                            href="?page=1"
+                            class="admin-page-button"
+                            aria-label="First page"
+                        >
+                            <i class="bi bi-chevron-double-left"></i>
+                        </a>
+
+                        <a
+                            href="?page={{ page_obj.previous_page_number }}"
+                            class="admin-page-button"
+                            aria-label="Previous page"
+                        >
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+
+                    {% else %}
+
+                        <span class="admin-page-button disabled">
+                            <i class="bi bi-chevron-double-left"></i>
+                        </span>
+
+                        <span class="admin-page-button disabled">
+                            <i class="bi bi-chevron-left"></i>
+                        </span>
+
+                    {% endif %}
+
+
+                    <div class="admin-page-indicator">
+                        <span>Page</span>
+                        <strong>{{ page_obj.number }}</strong>
+                        <span>of</span>
+                        <strong>{{ paginator.num_pages }}</strong>
+                    </div>
+
+
+                    {% if page_obj.has_next %}
+
+                        <a
+                            href="?page={{ page_obj.next_page_number }}"
+                            class="admin-page-button"
+                            aria-label="Next page"
+                        >
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+
+                        <a
+                            href="?page={{ paginator.num_pages }}"
+                            class="admin-page-button"
+                            aria-label="Last page"
+                        >
+                            <i class="bi bi-chevron-double-right"></i>
+                        </a>
+
+                    {% else %}
+
+                        <span class="admin-page-button disabled">
+                            <i class="bi bi-chevron-right"></i>
+                        </span>
+
+                        <span class="admin-page-button disabled">
+                            <i class="bi bi-chevron-double-right"></i>
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        {% endif %}
 
     </div>
 

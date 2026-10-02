@@ -898,6 +898,252 @@ body.admin-dashboard {
     word-break: break-word;
 }
 
+
+/* =========================================
+   ATTENDANCE PAGE
+========================================= */
+
+.attendance-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1.5rem;
+    margin-bottom: 1.75rem;
+}
+
+.attendance-eyebrow {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #8a6d3b;
+}
+
+.attendance-page-title {
+    margin: 0;
+    color: #0B1F3A;
+    font-size: clamp(1.7rem, 2.5vw, 2.2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.attendance-page-description {
+    margin: 0.4rem 0 0;
+    color: #6b7280;
+    font-size: 0.92rem;
+}
+
+.attendance-total {
+    color: #6b7280;
+    font-size: 0.82rem;
+    white-space: nowrap;
+}
+
+.attendance-total strong {
+    color: #0B1F3A;
+    font-weight: 700;
+}
+
+.attendance-panel {
+    overflow: hidden;
+}
+
+.attendance-panel-heading {
+    padding-bottom: 1rem;
+}
+
+.attendance-table thead th {
+    padding: 0.95rem 1.2rem;
+    background: #f8f9fb;
+    border-bottom: 1px solid #e9ecef;
+    color: #68707d;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.attendance-table tbody td {
+    padding: 1rem 1.2rem;
+    border-color: #eef0f3;
+    color: #273142;
+    font-size: 0.88rem;
+}
+
+.attendance-table tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+.attendance-table tbody tr:hover {
+    background: #fafbfc;
+}
+
+.attendance-course {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.attendance-course strong {
+    color: #0B1F3A;
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+
+.attendance-course span {
+    color: #7a8492;
+    font-size: 0.76rem;
+    line-height: 1.35;
+}
+
+.attendance-date {
+    color: #525d6d;
+    white-space: nowrap;
+}
+
+.attendance-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 72px;
+    padding: 0.38rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.attendance-status-present {
+    background: #e9f7ef;
+    color: #197344;
+}
+
+.attendance-status-late {
+    background: #fbf3df;
+    color: #8a6d1d;
+}
+
+.attendance-status-absent {
+    background: #fbeaec;
+    color: #b42332;
+}
+
+.attendance-empty {
+    padding: 4rem 1rem !important;
+    text-align: center;
+}
+
+.attendance-empty div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.attendance-empty strong {
+    color: #273142;
+    font-size: 0.92rem;
+}
+
+.attendance-empty span {
+    color: #7a8492;
+    font-size: 0.82rem;
+}
+
+
+/* =========================================
+   SHARED ADMIN PAGINATION
+========================================= */
+
+.admin-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    border-top: 1px solid #eef0f3;
+    background: #fff;
+}
+
+.admin-pagination-info {
+    color: #7a8492;
+    font-size: 0.78rem;
+}
+
+.admin-pagination-info strong {
+    color: #445064;
+    font-weight: 700;
+}
+
+.admin-pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.admin-page-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid #dfe3e8;
+    border-radius: 8px;
+    background: #fff;
+    color: #0B1F3A;
+    text-decoration: none;
+    font-size: 0.78rem;
+    transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.admin-page-button:hover {
+    border-color: #C8A45D;
+    background: #C8A45D;
+    color: #0B1F3A;
+}
+
+.admin-page-button.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.admin-page-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    min-width: 105px;
+    color: #8a929e;
+    font-size: 0.75rem;
+}
+
+.admin-page-indicator strong {
+    color: #0B1F3A;
+    font-weight: 700;
+}
+
+
+@media (max-width: 768px) {
+
+    .admin-pagination {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .admin-pagination-controls {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+}
+
+
 @media (max-width: 576px) {
 
     .admin-profile-info-grid {
