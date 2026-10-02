@@ -3,39 +3,67 @@
 
 {% block content %}
 
-<section class="py-5">
-    <div class="container py-4">
-        <div class="row align-items-center g-5">
+<main class="about-page">
 
-            <div class="col-lg-6">
-                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">
-                    <i class="bi bi-info-circle me-2"></i>
-                    About The System
+<!-- Hero -->
+<section class="about-hero">
+    <div class="container">
+        <div class="about-hero-grid">
+
+            <div class="about-hero-content">
+                <span class="section-badge">
+                    <i class="bi bi-building-gear"></i>
+                    ABOUT APTECHSYS
                 </span>
 
-                <h1 class="display-4 fw-bold mt-4">
+                <h1>
                     A smarter way to manage
-                    <span class="text-primary">academic operations.</span>
+                    <span>academic operations.</span>
                 </h1>
 
-                <p class="lead text-secondary mt-4">
-                    Student Management System is a Django-based platform designed
-                    to organize student records, teacher information, courses,
-                    attendance and academic results in one structured system.
+                <p class="about-hero-lead">
+                    APTECHSys is a Django-based student management platform
+                    designed to bring students, teachers, courses, attendance,
+                    enrollment and academic results into one connected system.
                 </p>
 
-                <p class="text-secondary">
-                    The project demonstrates real backend concepts including
-                    database relationships, authentication, application structure
-                    and workflow management.
+                <p class="about-hero-text">
+                    The project demonstrates how real backend concepts can be
+                    combined with a practical academic workflow to create a
+                    structured management system.
                 </p>
+
+                <div class="about-hero-actions">
+                    <a href="{% url 'home' %}" class="btn btn-primary">
+                        <i class="bi bi-arrow-left"></i>
+                        Back to Home
+                    </a>
+
+                    <a href="{% url 'contact' %}" class="btn btn-outline-dark">
+                        Contact Us
+                        <i class="bi bi-arrow-up-right"></i>
+                    </a>
+                </div>
             </div>
 
-            <div class="col-lg-6">
-                <img 
-                    src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=80"
-                    class="img-fluid rounded-4 shadow"
-                    alt="Students learning">
+            <div class="about-hero-visual">
+                <div class="about-image-wrapper">
+                    <img
+                        src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80"
+                        alt="Students in an academic environment"
+                        class="about-main-image"
+                    >
+
+                    <div class="about-floating-card">
+                        <div class="about-floating-icon">
+                            <i class="bi bi-diagram-3-fill"></i>
+                        </div>
+                        <div>
+                            <strong>Connected Operations</strong>
+                            <span>One system. Multiple academic workflows.</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -43,72 +71,82 @@
 </section>
 
 
-<section class="py-5 bg-light">
+<!-- Platform Overview -->
+<section class="about-overview">
     <div class="container">
 
-        <div class="text-center mb-5">
-            <h2 class="fw-bold">
-                System Architecture
+        <div class="section-heading text-center">
+            <span class="section-badge">THE PLATFORM</span>
+
+            <h2>
+                Built around how academic
+                operations actually work.
             </h2>
 
-            <p class="text-secondary">
-                Organized Django applications working together.
+            <p>
+                Rather than treating every function as a separate feature,
+                APTECHSys connects the major parts of an academic management
+                workflow into one system.
             </p>
         </div>
 
+        <div class="about-module-grid">
 
-        <div class="row g-4">
-
-            <div class="col-md-3">
-                <div class="module-card bg-white rounded-4 shadow-sm p-4 h-100 text-center">
-                    <i class="bi bi-person-lock text-primary fs-2"></i>
-                    <h5 class="mt-3">
-                        Accounts
-                    </h5>
-                    <p class="text-secondary">
-                        User authentication, roles and permissions.
+            <article class="about-module-card">
+                <div class="about-module-icon">
+                    <i class="bi bi-people"></i>
+                </div>
+                <div>
+                    <span class="about-module-number">01</span>
+                    <h3>Accounts</h3>
+                    <p>
+                        Manages users, authentication and role-based access
+                        for students, teachers and administrators.
                     </p>
                 </div>
-            </div>
+            </article>
 
-
-            <div class="col-md-3">
-                <div class="module-card bg-white rounded-4 shadow-sm p-4 h-100 text-center">
-                    <i class="bi bi-people-fill text-primary fs-2"></i>
-                    <h5 class="mt-3">
-                        Students
-                    </h5>
-                    <p class="text-secondary">
-                        Student profiles and academic records.
+            <article class="about-module-card">
+                <div class="about-module-icon">
+                    <i class="bi bi-mortarboard"></i>
+                </div>
+                <div>
+                    <span class="about-module-number">02</span>
+                    <h3>Students</h3>
+                    <p>
+                        Keeps student profiles and academic information
+                        organised in one central location.
                     </p>
                 </div>
-            </div>
+            </article>
 
-
-            <div class="col-md-3">
-                <div class="module-card bg-white rounded-4 shadow-sm p-4 h-100 text-center">
-                    <i class="bi bi-person-badge text-primary fs-2"></i>
-                    <h5 class="mt-3">
-                        Teachers
-                    </h5>
-                    <p class="text-secondary">
-                        Teacher profiles and responsibilities.
+            <article class="about-module-card">
+                <div class="about-module-icon">
+                    <i class="bi bi-person-workspace"></i>
+                </div>
+                <div>
+                    <span class="about-module-number">03</span>
+                    <h3>Teachers</h3>
+                    <p>
+                        Connects teachers with their courses, students,
+                        attendance records and academic results.
                     </p>
                 </div>
-            </div>
+            </article>
 
-
-            <div class="col-md-3">
-                <div class="module-card bg-white rounded-4 shadow-sm p-4 h-100 text-center">
-                    <i class="bi bi-diagram-3 text-primary fs-2"></i>
-                    <h5 class="mt-3">
-                        Academics
-                    </h5>
-                    <p class="text-secondary">
-                        Courses, enrollment and results.
+            <article class="about-module-card">
+                <div class="about-module-icon">
+                    <i class="bi bi-journal-check"></i>
+                </div>
+                <div>
+                    <span class="about-module-number">04</span>
+                    <h3>Academics</h3>
+                    <p>
+                        Brings courses, departments, enrollment, attendance
+                        and results into a connected academic workflow.
                     </p>
                 </div>
-            </div>
+            </article>
 
         </div>
 
@@ -116,106 +154,265 @@
 </section>
 
 
-<section class="py-5">
+<!-- Engineering Principles -->
+<section class="about-engineering">
     <div class="container">
-        <div class="row align-items-center g-5">
 
-            <div class="col-lg-6">
-                <img 
-                src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80"
-                class="img-fluid rounded-4 shadow"
-                alt="Technology and education">
-            </div>
+        <div class="about-engineering-grid">
 
+            <div class="about-engineering-content">
+                <span class="section-badge">
+                    <i class="bi bi-code-slash"></i>
+                    ENGINEERING APPROACH
+                </span>
 
-            <div class="col-lg-6">
-
-                <h2 class="fw-bold">
-                    Built around backend engineering principles
+                <h2>
+                    Built with backend
+                    engineering principles in mind.
                 </h2>
 
-                <p class="text-secondary mt-3">
-                    The main focus of this project is not only the interface,
-                    but the logic behind managing educational data.
+                <p>
+                    The goal is not simply to display information. The system
+                    is structured around relationships, permissions and
+                    workflows that reflect how an academic platform operates.
                 </p>
 
-                <div class="mt-4">
+                <div class="about-principles">
 
-                    <p>
-                        <i class="bi bi-check-circle-fill text-primary me-2"></i>
-                        Database modeling with Django ORM
-                    </p>
+                    <div class="about-principle">
+                        <div class="about-principle-icon">
+                            <i class="bi bi-shield-lock"></i>
+                        </div>
 
-                    <p>
-                        <i class="bi bi-check-circle-fill text-primary me-2"></i>
-                        Relationships between applications
-                    </p>
+                        <div>
+                            <h3>Authentication & Roles</h3>
+                            <p>
+                                Users are authenticated and access is organised
+                                around defined roles and permissions.
+                            </p>
+                        </div>
+                    </div>
 
-                    <p>
-                        <i class="bi bi-check-circle-fill text-primary me-2"></i>
-                        Authentication and authorization
-                    </p>
+                    <div class="about-principle">
+                        <div class="about-principle-icon">
+                            <i class="bi bi-database"></i>
+                        </div>
 
-                    <p>
-                        <i class="bi bi-check-circle-fill text-primary me-2"></i>
-                        Structured academic workflows
-                    </p>
+                        <div>
+                            <h3>Structured Data Models</h3>
+                            <p>
+                                Relationships between students, teachers,
+                                courses, enrollment, attendance and results
+                                are represented through structured models.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="about-principle">
+                        <div class="about-principle-icon">
+                            <i class="bi bi-arrow-left-right"></i>
+                        </div>
+
+                        <div>
+                            <h3>Connected Workflows</h3>
+                            <p>
+                                Academic actions are connected instead of
+                                existing as isolated pages and features.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="about-principle">
+                        <div class="about-principle-icon">
+                            <i class="bi bi-layout-text-window-reverse"></i>
+                        </div>
+
+                        <div>
+                            <h3>Clear Separation of Responsibilities</h3>
+                            <p>
+                                Students, teachers and administrators interact
+                                with the parts of the system relevant to them.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="about-engineering-panel">
+                <div class="about-panel-header">
+                    <span>System Architecture</span>
+                    <i class="bi bi-diagram-3"></i>
+                </div>
+
+                <div class="about-architecture-flow">
+
+                    <div class="about-architecture-step">
+                        <div class="about-architecture-icon">
+                            <i class="bi bi-person-check"></i>
+                        </div>
+                        <strong>Authentication</strong>
+                        <span>Users & roles</span>
+                    </div>
+
+                    <div class="about-architecture-connector">
+                        <i class="bi bi-arrow-right"></i>
+                    </div>
+
+                    <div class="about-architecture-step">
+                        <div class="about-architecture-icon">
+                            <i class="bi bi-diagram-2"></i>
+                        </div>
+                        <strong>Core Models</strong>
+                        <span>Connected data</span>
+                    </div>
+
+                    <div class="about-architecture-connector">
+                        <i class="bi bi-arrow-right"></i>
+                    </div>
+
+                    <div class="about-architecture-step">
+                        <div class="about-architecture-icon">
+                            <i class="bi bi-kanban"></i>
+                        </div>
+                        <strong>Operations</strong>
+                        <span>Academic workflows</span>
+                    </div>
 
                 </div>
 
+                <div class="about-panel-note">
+                    <i class="bi bi-info-circle"></i>
+                    <span>
+                        The architecture is designed around real relationships
+                        between users, academic records and operational actions.
+                    </span>
+                </div>
             </div>
 
         </div>
+
     </div>
 </section>
 
 
-<section class="py-5 bg-light">
+<!-- Technology Stack -->
+<section class="about-stack">
     <div class="container">
 
-        <div class="text-center mb-5">
-            <h2 class="fw-bold">
-                Technology Stack
+        <div class="section-heading text-center">
+            <span class="section-badge">TECHNOLOGY STACK</span>
+
+            <h2>
+                Powered by a practical
+                web development stack.
             </h2>
+
+            <p>
+                The platform combines Python, Django, database-driven
+                architecture and a responsive frontend to provide a complete
+                web application.
+            </p>
         </div>
 
-        <div class="row g-4">
+        <div class="about-stack-grid">
 
-            <div class="col-md-3">
-                <div class="feature-card border rounded-4 p-4 text-center h-100">
-                    <i class="bi bi-filetype-py text-primary fs-2"></i>
-                    <h5 class="mt-3">Python</h5>
-                    <p class="text-secondary">Backend programming language.</p>
+            <article class="about-stack-card">
+                <div class="about-stack-icon">
+                    <i class="bi bi-filetype-py"></i>
                 </div>
-            </div>
 
-            <div class="col-md-3">
-                <div class="feature-card border rounded-4 p-4 text-center h-100">
-                    <i class="bi bi-server text-primary fs-2"></i>
-                    <h5 class="mt-3">Django</h5>
-                    <p class="text-secondary">Web framework and application logic.</p>
+                <div>
+                    <h3>Python</h3>
+                    <p>
+                        Provides the core programming language behind the
+                        application's backend logic.
+                    </p>
                 </div>
-            </div>
+            </article>
 
-            <div class="col-md-3">
-                <div class="feature-card border rounded-4 p-4 text-center h-100">
-                    <i class="bi bi-database text-primary fs-2"></i>
-                    <h5 class="mt-3">Database</h5>
-                    <p class="text-secondary">Storage and relationships.</p>
+            <article class="about-stack-card">
+                <div class="about-stack-icon">
+                    <i class="bi bi-boxes"></i>
                 </div>
-            </div>
 
-            <div class="col-md-3">
-                <div class="feature-card border rounded-4 p-4 text-center h-100">
-                    <i class="bi bi-bootstrap text-primary fs-2"></i>
-                    <h5 class="mt-3">Bootstrap</h5>
-                    <p class="text-secondary">Responsive frontend design.</p>
+                <div>
+                    <h3>Django</h3>
+                    <p>
+                        Handles the web application structure, models,
+                        authentication, routing and backend operations.
+                    </p>
                 </div>
-            </div>
+            </article>
+
+            <article class="about-stack-card">
+                <div class="about-stack-icon">
+                    <i class="bi bi-database-check"></i>
+                </div>
+
+                <div>
+                    <h3>Database</h3>
+                    <p>
+                        Stores and connects the academic records used across
+                        the different parts of the platform.
+                    </p>
+                </div>
+            </article>
+
+            <article class="about-stack-card">
+                <div class="about-stack-icon">
+                    <i class="bi bi-bootstrap"></i>
+                </div>
+
+                <div>
+                    <h3>Bootstrap</h3>
+                    <p>
+                        Provides the responsive frontend foundation for a
+                        consistent experience across screen sizes.
+                    </p>
+                </div>
+            </article>
 
         </div>
 
     </div>
 </section>
 
-{% endblock content %}
+
+<!-- Closing CTA -->
+<section class="about-cta">
+    <div class="container">
+        <div class="about-cta-inner">
+
+            <div>
+                <span class="section-badge">EXPLORE THE SYSTEM</span>
+
+                <h2>
+                    See how the platform brings
+                    academic operations together.
+                </h2>
+
+                <p>
+                    Explore the platform or get in touch to learn more about
+                    the project.
+                </p>
+            </div>
+
+            <div class="about-cta-actions">
+                <a href="{% url 'home' %}" class="btn btn-primary">
+                    Explore Platform
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+
+                <a href="{% url 'contact' %}" class="btn btn-outline-dark">
+                    Contact Us
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+</main>
+
+{% endblock %}
