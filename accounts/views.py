@@ -16,6 +16,13 @@ from django.db.models import Count
 from django.core.paginator import Paginator
 
 
+from accounts.forms import (
+    DepartmentAdminForm,
+    CourseAdminForm,
+    StudentAdminForm,
+    TeacherAdminForm,
+)
+
 class UserLoginView(LoginView):
     template_name = "accounts/login.html"
     authentication_form = LoginForm
@@ -38,6 +45,7 @@ def dashboard(request):
 
 @login_required
 def admin_students(request):
+
     if not (request.user.is_superuser or request.user.role == "admin"):
         raise PermissionDenied
 
@@ -51,10 +59,16 @@ def admin_students(request):
         )
     )
 
+    paginator = Paginator(students, 25)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     context = {
         "title": "Students",
-        "students": students,
-        "total_students": students.count(),
+        "students": page_obj.object_list,
+        "page_obj": page_obj,
+        "paginator": paginator,
+        "total_students": paginator.count,
     }
 
     return render(
@@ -225,6 +239,125 @@ def admin_profile(request):
         request,
         "accounts/dashboard/admin/profile.html",
         context,
+    )
+
+@login_required
+def admin_add_department(request):
+
+    if not (request.user.is_superuser or request.user.role == "admin"):
+        raise PermissionDenied
+
+    if request.method == "POST":
+        form = DepartmentAdminForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("admin_departments")
+
+    else:
+        form = DepartmentAdminForm()
+
+    return render(
+        request,
+        "accounts/dashboard/admin/form.html",
+        {
+            "title": "Add Department",
+            "heading": "Add Department",
+            "description": "Create a new academic department.",
+            "form": form,
+            "back_url": "admin_departments",
+            "back_label": "Departments",
+        },
+    )
+
+
+@login_required
+def admin_add_course(request):
+
+    if not (request.user.is_superuser or request.user.role == "admin"):
+        raise PermissionDenied
+
+    if request.method == "POST":
+        form = CourseAdminForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("admin_courses")
+
+    else:
+        form = CourseAdminForm()
+
+    return render(
+        request,
+        "accounts/dashboard/admin/form.html",
+        {
+            "title": "Add Course",
+            "heading": "Add Course",
+            "description": "Create a new course and assign its department and teacher.",
+            "form": form,
+            "back_url": "admin_courses",
+            "back_label": "Courses",
+        },
+    )
+
+
+@login_required
+def admin_add_student(request):
+
+    if not (request.user.is_superuser or request.user.role == "admin"):
+        raise PermissionDenied
+
+    if request.method == "POST":
+        form = StudentAdminForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("admin_students")
+
+    else:
+        form = StudentAdminForm()
+
+    return render(
+        request,
+        "accounts/dashboard/admin/form.html",
+        {
+            "title": "Add Student",
+            "heading": "Add Student",
+            "description": "Create a student account and academic profile.",
+            "form": form,
+            "back_url": "admin_students",
+            "back_label": "Students",
+        },
+    )
+
+
+@login_required
+def admin_add_teacher(request):
+
+    if not (request.user.is_superuser or request.user.role == "admin"):
+        raise PermissionDenied
+
+    if request.method == "POST":
+        form = TeacherAdminForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("admin_teachers")
+
+    else:
+        form = TeacherAdminForm()
+
+    return render(
+        request,
+        "accounts/dashboard/admin/form.html",
+        {
+            "title": "Add Teacher",
+            "heading": "Add Teacher",
+            "description": "Create a teacher account and professional profile.",
+            "form": form,
+            "back_url": "admin_teachers",
+            "back_label": "Teachers",
+        },
     )
 
 

@@ -1155,3 +1155,86 @@ body.admin-dashboard {
     }
 
 }
+
+/* =========================================
+   SHARED ADMIN FORM
+========================================= */
+
+.admin-form-panel {
+    max-width: 900px;
+}
+
+.admin-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.2rem 1.25rem;
+}
+
+.admin-form-field {
+    min-width: 0;
+}
+
+.admin-form-field-full {
+    grid-column: 1 / -1;
+}
+
+.admin-form-field .form-label {
+    margin-bottom: 0.45rem;
+    color: #273142;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.admin-form-field .form-control,
+.admin-form-field .form-select {
+    min-height: 44px;
+    border-color: #dfe3e8;
+    border-radius: 8px;
+    font-size: 0.86rem;
+    color: #273142;
+}
+
+.admin-form-field textarea.form-control {
+    min-height: 100px;
+}
+
+.admin-form-field .form-control:focus,
+.admin-form-field .form-select:focus {
+    border-color: #C8A45D;
+    box-shadow: 0 0 0 0.2rem rgba(200, 164, 93, 0.12);
+}
+
+.admin-form-error {
+    margin-top: 0.35rem;
+    color: #b42332;
+    font-size: 0.75rem;
+}
+
+.admin-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.65rem;
+    margin-top: 1.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #eef0f3;
+}
+
+@media (max-width: 768px) {
+
+    .admin-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-form-field-full {
+        grid-column: auto;
+    }
+
+    .admin-form-actions {
+        justify-content: stretch;
+    }
+
+    .admin-form-actions .btn {
+        flex: 1;
+    }
+
+}

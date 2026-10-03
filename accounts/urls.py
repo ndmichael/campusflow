@@ -18,6 +18,11 @@ from accounts.views import (
     admin_results,
     admin_profile,
 
+    admin_add_student,
+    admin_add_teacher,
+    admin_add_course,
+    admin_add_department,
+
 
     student_courses,
     student_attendance,
@@ -25,6 +30,7 @@ from accounts.views import (
     student_profile,
     
 )
+
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
@@ -70,7 +76,30 @@ urlpatterns = [
         admin_profile,
         name="admin_profile",
     ),
-        
+    path(
+        "dashboard/admin/students/add/",
+        admin_add_student,
+        name="admin_add_student",
+    ),
+
+    path(
+        "dashboard/admin/teachers/add/",
+        admin_add_teacher,
+        name="admin_add_teacher",
+    ),
+
+    path(
+        "dashboard/admin/courses/add/",
+        admin_add_course,
+        name="admin_add_course",
+    ),
+
+    path(
+        "dashboard/admin/departments/add/",
+        admin_add_department,
+        name="admin_add_department",
+    ),
+            
 
     path('dashboard/teacher/', teacher_dashboard, name="teacher_dashboard"),
     path(

@@ -1,4 +1,5 @@
 {% extends "accounts/dashboard/base.html" %}
+
 {% load static %}
 
 {% block title %}
@@ -56,7 +57,7 @@
             </div>
 
             <a
-                href="/admin/students/student/add/"
+                href="{% url 'admin_add_student' %}"
                 class="btn btn-primary btn-sm"
             >
                 <i class="bi bi-person-plus me-1"></i>
@@ -97,9 +98,12 @@
 
 
                 <span class="badge text-bg-light">
+
                     {{ student.course_count }}
                     course{{ student.course_count|pluralize }}
+
                 </span>
+
 
                 <span class="admin-role-badge">
                     Student
@@ -120,6 +124,99 @@
             </div>
 
         {% endfor %}
+
+
+        {% if page_obj.paginator.count %}
+
+            <div class="admin-pagination">
+
+                <div class="admin-pagination-info">
+                    Showing
+                    <strong>{{ page_obj.start_index }}</strong>
+                    –
+                    <strong>{{ page_obj.end_index }}</strong>
+                    of
+                    <strong>{{ paginator.count }}</strong>
+                    students
+                </div>
+
+
+                <div class="admin-pagination-controls">
+
+                    {% if page_obj.has_previous %}
+
+                        <a
+                            href="?page=1"
+                            class="admin-page-button"
+                            aria-label="First page"
+                        >
+                            <i class="bi bi-chevron-double-left"></i>
+                        </a>
+
+                        <a
+                            href="?page={{ page_obj.previous_page_number }}"
+                            class="admin-page-button"
+                            aria-label="Previous page"
+                        >
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+
+                    {% else %}
+
+                        <span class="admin-page-button disabled">
+                            <i class="bi bi-chevron-double-left"></i>
+                        </span>
+
+                        <span class="admin-page-button disabled">
+                            <i class="bi bi-chevron-left"></i>
+                        </span>
+
+                    {% endif %}
+
+
+                    <div class="admin-page-indicator">
+                        <span>Page</span>
+                        <strong>{{ page_obj.number }}</strong>
+                        <span>of</span>
+                        <strong>{{ paginator.num_pages }}</strong>
+                    </div>
+
+
+                    {% if page_obj.has_next %}
+
+                        <a
+                            href="?page={{ page_obj.next_page_number }}"
+                            class="admin-page-button"
+                            aria-label="Next page"
+                        >
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+
+                        <a
+                            href="?page={{ paginator.num_pages }}"
+                            class="admin-page-button"
+                            aria-label="Last page"
+                        >
+                            <i class="bi bi-chevron-double-right"></i>
+                        </a>
+
+                    {% else %}
+
+                        <span class="admin-page-button disabled">
+                            <i class="bi bi-chevron-right"></i>
+                        </span>
+
+                        <span class="admin-page-button disabled">
+                            <i class="bi bi-chevron-double-right"></i>
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        {% endif %}
 
     </div>
 
