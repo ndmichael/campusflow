@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect, render
 
@@ -23,10 +23,36 @@ from accounts.forms import (
     TeacherAdminForm,
 )
 
+
 class UserLoginView(LoginView):
+
     template_name = "accounts/login.html"
     authentication_form = LoginForm
     redirect_authenticated_user = True
+
+    def form_valid(self, form):
+        messages.success(
+            self.request,
+            "Welcome back! You have successfully signed in.",
+        )
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(
+            self.request,
+            "Invalid username or password. Please try again.",
+        )
+        return super().form_invalid(form)
+
+
+class UserLogoutView(LogoutView):
+
+    def dispatch(self, request, *args, **kwargs):
+        messages.success(
+            request,
+            "You have been successfully logged out.",
+        )
+        return super().dispatch(request, *args, **kwargs)
 
 
 @login_required
@@ -252,6 +278,10 @@ def admin_add_department(request):
 
         if form.is_valid():
             form.save()
+            messages.success(
+                request,
+                "Department created successfully.",
+            )
             return redirect("admin_departments")
 
     else:
@@ -282,6 +312,10 @@ def admin_add_course(request):
 
         if form.is_valid():
             form.save()
+            messages.success(
+                request,
+                "Course created successfully.",
+            )
             return redirect("admin_courses")
 
     else:
@@ -312,6 +346,10 @@ def admin_add_student(request):
 
         if form.is_valid():
             form.save()
+            messages.success(
+                request,
+                "Student account created successfully.",
+            )
             return redirect("admin_students")
 
     else:
@@ -342,6 +380,10 @@ def admin_add_teacher(request):
 
         if form.is_valid():
             form.save()
+            messages.success(
+                request,
+                "Teacher account created successfully.",
+            )
             return redirect("admin_teachers")
 
     else:

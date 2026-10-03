@@ -560,3 +560,152 @@ body {
     }
 
 }
+
+
+/* =========================================
+   DASHBOARD TOAST NOTIFICATIONS
+========================================= */
+
+.dashboard-messages {
+    position: fixed;
+    top: 84px;
+    right: 24px;
+    z-index: 1055;
+    width: min(380px, calc(100vw - 32px));
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.dashboard-toast {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 13px 14px;
+    border: 1px solid #e6e8ec;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(11, 31, 58, 0.10);
+    pointer-events: auto;
+    animation: dashboardToastIn 0.2s ease-out;
+}
+
+.dashboard-toast-icon {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.dashboard-toast-content {
+    min-width: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.dashboard-toast-content strong {
+    color: #0B1F3A;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.dashboard-toast-content span {
+    color: #667085;
+    font-size: 0.78rem;
+    line-height: 1.45;
+}
+
+.dashboard-toast-close {
+    border: 0;
+    background: transparent;
+    color: #98a2b3;
+    padding: 2px;
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.dashboard-toast-close:hover {
+    color: #0B1F3A;
+}
+
+
+/* SUCCESS */
+
+.dashboard-toast-success {
+    border-left: 3px solid #198754;
+}
+
+.dashboard-toast-success .dashboard-toast-icon {
+    background: #eaf7ef;
+    color: #198754;
+}
+
+
+/* ERROR */
+
+.dashboard-toast-danger {
+    border-left: 3px solid #dc3545;
+}
+
+.dashboard-toast-danger .dashboard-toast-icon {
+    background: #fcedef;
+    color: #dc3545;
+}
+
+
+/* WARNING */
+
+.dashboard-toast-warning {
+    border-left: 3px solid #C8A45D;
+}
+
+.dashboard-toast-warning .dashboard-toast-icon {
+    background: #fbf5e7;
+    color: #8a6d1d;
+}
+
+
+/* INFO */
+
+.dashboard-toast-info {
+    border-left: 3px solid #0B1F3A;
+}
+
+.dashboard-toast-info .dashboard-toast-icon {
+    background: #eef2f7;
+    color: #0B1F3A;
+}
+
+
+@keyframes dashboardToastIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+@media (max-width: 576px) {
+
+    .dashboard-messages {
+        top: 72px;
+        right: 16px;
+        width: calc(100vw - 32px);
+    }
+
+}
