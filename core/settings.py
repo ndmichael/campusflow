@@ -1,6 +1,7 @@
+import os
 from pathlib import Path
-
 from django.contrib.messages import constants as message_constants
+
 
 MESSAGE_TAGS = {
     message_constants.ERROR: "danger",
@@ -14,13 +15,32 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$6t)f=!33e!y-s_!g#oa46r9=(1v6h%)dpk+$2l=0+^vy3ixjv'
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY",
+    "django-insecure-dev-only-change-this",
+)
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get(
+    "DEBUG",
+    "True",
+).lower() in ("true", "1", "yes")
 
-ALLOWED_HOSTS = []
+railway_domain = os.environ.get("RAILWAY_PUBLIC_DOMAIN")
+
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+]
+
+if railway_domain:
+    ALLOWED_HOSTS.append(railway_domain)
+
+CSRF_TRUSTED_ORIGINS = []
+
+if railway_domain:
+    CSRF_TRUSTED_ORIGINS.append(
+        f"https://{railway_domain}"
+    )
 
 
 # Application definition
@@ -45,6 +65,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -76,10 +97,15 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
+DATABASE_PATH = os.environ.get(
+    "DATABASE_PATH",
+    str(BASE_DIR / "db.sqlite3"),
+)
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": DATABASE_PATH,
     }
 }
 
@@ -108,7 +134,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Lagos'
 
 USE_I18N = True
 
@@ -118,7 +144,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
 # Email
